@@ -1,0 +1,49 @@
+% Define some abbreviations
+\RequirePackage{xspace}
+\let\textabbr\textsc
+\newcommand{\abbrAEB}{\texorpdfstring{\textabbr{aeb}}{AEB}\xspace}
+\newcommand{\abbrAES}{\texorpdfstring{\textabbr{aes}}{AES}\xspace}
+\newcommand{\abbrSTT}{\texorpdfstring{\textabbr{stt}}{STT}\xspace}
+\newcommand{\abbrMTT}{\texorpdfstring{\textabbr{mtt}}{MTT}\xspace}
+\newcommand{\abbrADAS}{\texorpdfstring{\textabbr{adas}}{ADAS}\xspace}
+\newcommand{\abbrEKF}{\texorpdfstring{\textabbr{ekf}}{EKF}\xspace}
+\newcommand{\abbrROI}{\texorpdfstring{\textabbr{roi}}{ROI}\xspace}
+\newcommand{\abbrRMSE}{\texorpdfstring{\textabbr{rmse}}{RMSE}\xspace}
+\newcommand{\abbrMSE}{\texorpdfstring{\textabbr{mse}}{MSE}\xspace}
+\newcommand{\abbrDLT}{\texorpdfstring{\textabbr{dlt}}{DLT}\xspace}
+\newcommand{\abbrRANSAC}{\texorpdfstring{\textabbr{ransac}}{RANSAC}\xspace}
+\newcommand{\abbrKLT}{\texorpdfstring{\textabbr{klt}}{KLT}\xspace}
+\newcommand{\abbrUAV}{\texorpdfstring{\textabbr{uav}}{UAV}\xspace}
+
+% Common sets
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\complexes}{\mathbb{C}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\integers}{\mathbb{Z}}
+
+% Stylisch words
+\newcommand{\matlab}{\textsc{matlab}\xspace}
+\newcommand{\spacedim}[1]{\textsc{{#1}d}\xspace}
+
+% Matrices etc.
+\newcommand{\rotmat}{\bm{\mathcal{R}}}
+
+% Useful common abbreviations
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\Ie}{I.e.,\xspace}
+\newcommand{\eg}{e.g.\xspace}
+\newcommand{\ms}{Master's thesis\xspace}
+
+% Text style for different kinds of words.
+\newcommand{\textfilename}[1]{\mbox{\emph{#1}}}% The command \filename is already used by some other package.
+\newcommand{\styname}[1]{\texorpdfstring{{\fontsize{0.9em}{1\baselineskip}\selectfont\mbox{\textsf{#1}}}}{#1}}
+\newcommand{\classoption}[1]{\mbox{\texttt{#1}}}
+\newcommand{\texcommand}[1]{\mbox{\texttt{\textbackslash #1}}}
+\newcommand{\envname}[1]{\mbox{\texttt{#1}}}
+
+% Miscellaneous strings with special formatting
+\newcommand{\rtthesis}{\emph{\styname{rtthesis}}\xspace}% It's not really a style file (package), but it is close enough.
+
+% It's hard to get good-looking underscores in filenames.  This is one attempt...
+\newcommand{\usc}{\hspace{0.1ex}\rule{1ex}{0.1ex}\hspace{0.1ex}}%\raisebox{2.5pt}{\_}

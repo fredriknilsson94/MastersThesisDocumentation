@@ -1,0 +1,75 @@
+\setupThesis{
+  author={Fredrik Nilsson},
+  swetitle={},
+  swesubtitle={},
+  title={Vehicle Tracking with Heading Estimation using a Mono Camera System},
+  subtitle={},
+  year=2018,
+  month=MM,
+  day=DD,
+  type=msc,
+  subject={Electrical Engineering},
+  division={Division of Automatic Control},
+  department=isy,
+  examiner={Gustaf Hendeby \AT \textsc{isy}, Linköping University},
+  supervisor={Per Bostr\"om-Rost \AT \textsc{isy}, Linköping University \AND Patrik Leissner \AT Veoneer},
+  keywords={Camera, Estimation},
+  isrn=LiTH-ISY-EX-{}-18/NNNN-{}-SE,
+  url={http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-XXXXX},
+  dedication={}
+}
+
+%%% Since macros that define notation may be useful also to produce figures, these macros are kept in a separate file.
+\RequirePackage{mynotation}
+
+%%% Setup for natbib (natbib is loaded by rtthesis).
+\AtBeginDocument{%
+  \bibliographystyle{plainnat}%
+}
+
+
+%%% Tell \includegraphics where to search for files.
+\graphicspath{{fig/}}
+
+
+%%% For consistent formatting of lengths and other physical quantities.
+\RequirePackage[squaren]{SIunits}
+
+
+%%% Define command for playing around with margin paragraphs.
+\definecolor{Warning}{rgb}{1.0,0.5,0.0}
+\newcommand{\Warning}[2][Warning]{\marginpar{\fcolorbox{Warning}{white}{\begin{minipage}{\linewidth}\textbf{\textcolor{Warning}{\emph{#1:}}}\par \tiny \sf #2\end{minipage}}}}
+
+
+%%% Define font size command to use for all verbatim environments.
+\newcommand{\verbatimsize}{\small}
+
+%%% Define some convenient referencing commands.
+\newcommand{\chapterref}[1]{\hyperref[#1]{chapter~\ref*{#1}}}
+\newcommand{\Chapterref}[1]{\hyperref[#1]{Chapter~\ref*{#1}}}
+
+\newcommand{\sectionref}[1]{\hyperref[#1]{section~\ref*{#1}}}
+\newcommand{\Sectionref}[1]{\hyperref[#1]{Section~\ref*{#1}}}
+
+\newcommand{\appendixref}[1]{\hyperref[#1]{appendix~\ref*{#1}}}
+\newcommand{\Appendixref}[1]{\hyperref[#1]{Appendix~\ref*{#1}}}
+
+\newcommand{\theoremref}[1]{\hyperref[#1]{theorem~\ref*{#1}}}
+\newcommand{\Theoremref}[1]{\hyperref[#1]{Theorem~\ref*{#1}}}
+
+\newcommand{\exampleref}[1]{\hyperref[#1]{example~\ref*{#1}}}
+\newcommand{\Exampleref}[1]{\hyperref[#1]{example~\ref*{#1}}}
+
+\newcommand{\figureref}[1]{\hyperref[#1]{figure~\ref*{#1}}}
+\newcommand{\Figureref}[1]{\hyperref[#1]{Figure~\ref*{#1}}}
+
+\newcommand{\tableref}[1]{\hyperref[#1]{table~\ref*{#1}}}
+\newcommand{\Tableref}[1]{\hyperref[#1]{Table~\ref*{#1}}}
+
+\newcommand{\algorithmref}[1]{\hyperref[#1]{algorithm~\ref*{#1}}}
+\newcommand{\Algorithmref}[1]{\hyperref[#1]{Algorithm~\ref*{#1}}}
+
+\newcommand{\definitionref}[1]{\hyperref[#1]{definition~\ref*{#1}}}
+\newcommand{\Definitionref}[1]{\hyperref[#1]{Definition~\ref*{#1}}}
+
+\newcommand{\pagepageref}[1]{\hyperref[#1]{page~\pageref*{#1}}}

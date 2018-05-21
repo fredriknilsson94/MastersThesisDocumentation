@@ -1,11 +1,11 @@
 \chapter{Introduction}
 \label{cha:intro}
-This \ms deals with the problem of investigating the possibility of constructing a method on how to estimate the heading (orientation and angular rate) of other vehicles, using a camera mounted in the ego vehicle.
+This \ms deals with how to estimate the heading (orientation and angular rate) of other vehicles, using a camera mounted in the ego vehicle.
 The problem is easily solved by using a camera system consisting of two side-by-side mounted cameras.
-Camera systems consisting of a single camera is cheaper than using a system of two cameras which is a great motivation to why this problem is of interest to investigate.
+Camera systems consisting of a single camera are cheaper than a system of two cameras which is a great motivation to why this problem is of interest to investigate.
 
 \section{Background}
-Today, autonomous driving and driving assistance systems is a popular area of research and development.
+Today, autonomous driving and driver assistance systems is a popular area of research and development.
 Especially, since it has the ability to make driving more safe. 
 One organization, working with evaluation of car safety, is Euro NCAP.
 They have created a five-star safety rating system, in order to guide and assist the customers when they are purchasing a new car.
@@ -15,12 +15,12 @@ This requires safety systems capable of handling \eg interurban, city and pedest
 In the future, the automatic emergency steering (\abbrAES) and \abbrAEB systems will have more demanding requirements in order for the car manufactures to reach the highest safety ratings \cite{EuroNCAP:2017}.
 
 One possible technical solution to reach the safety requirements is to use vision based safety assistance systems.
-By using a camera system, capable of capturing a wide scene in front of the vehicle combined with image processing techniques, a good knowledge about the surrounding environment of the vehicle can be obtained.
+By using a camera system, capable of capturing a wide scene in front of the vehicle combined with image processing techniques, good knowledge about the surrounding environment of the vehicle can be obtained.
 Vision safety systems are typically constructed with either one or two cameras, denoted mono camera systems and stereo camera systems, respectively.
 One of the great advantages from using a stereo camera system, instead of a mono camera system, is the ability to gain depth information from the disparity mapping \citep{Sivaraman:2013}.
 This is exactly the same ability as the human eyes have when we observe the world, \ie reconstruction of \spacedim{3} images.
 This significantly improves the ability to get information about how vehicles are \eg oriented.
-One benefit of knowing how vehicles are oriented, and how the are rotating, is that more information can be used when predicting the future path of the objects.
+One benefit of knowing how vehicles are oriented, and how they are rotating, is that more information can be used when predicting the future path of the objects.
 Especially, since \eg a car has constraints that limits its movements, knowing the orientation and rotation can give large benefits.
 
 The lack of distance information is a challenge that must be handled when developing a mono camera system.
@@ -50,7 +50,7 @@ The objective can be formulated into several questions:
 \begin{itemize}
 	\item Can the heading of a vehicle be estimated using a mono camera system?
 
-	\item What kind of algorithm and model are suitable for solving the problem?
+	\item What kind of algorithms and models are suitable for solving the problem?
 
 	\item How well do the estimations from a mono camera system perform compared to those from a stereo camera system?
 \end{itemize}
@@ -68,7 +68,7 @@ In order to make the thesis feasible, some limitations must be accepted. They ar
 	For simplification and in order to have some  distance information, it is assumed that we have knowledge about the width and length of the tracked car.
 	It is future work to investigate how incorrect assumptions about the size affects the final results.
 
-	\item There are no requirements on real-time performance of the algorithm.
+	\item The algorithm is not required to work in real-time.
 
 	Since it is initially unknown if it is possible to estimate the heading of objects in a mono camera system, the focus is on proof-of-concept and not on real-time performance.
 	However, the real-time aspect should be kept in mind when designing the algorithm.
@@ -86,14 +86,14 @@ In order to make the thesis feasible, some limitations must be accepted. They ar
 \newpage
 
 \section{About Veoneer}
-Veoneer is a worldwide leader in automotive safety.
+Veoneer is a worldwide leader company in automotive safety.
 During 2018, the company Autoliv split up the two business areas, passive and active safety, into two separate companies.
 Autoliv continued to be responsible for the passive business area while Veoneer took over the responsibility for the active safety.
 Veoneer constructs software for \abbrADAS, night-vision systems, radar and LiDAR systems as well as hardware constructions.
 \cite{Veoneer:2018}
 
 \section{Thesis Outline}
-The outline of the thesis is structured like this:
+The thesis is structured the following way:
 \begin{description}
     \item[\Chapterref{cha:theory}] includes relevant theory about different algorithms that can possibly be used to solve the problem and other theory necessary to understand the thesis.
 

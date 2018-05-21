@@ -3,18 +3,18 @@
 
 This chapter describes relevant theory for solving the heading estimation problem.
 In order to estimate a vehicle's heading, we must track its movement, \ie perform \textit{target tracking} of the vehicle.
-Target tracking is the task of tracking targets, objects of interest, given measurements, outputs from some kinds of sensors, with different variations of uncertainty.
+Target tracking is the task of tracking targets, objects of interest, given measurements, outputs from sensors, with different variations of uncertainty.
 The camera system is used to detect and input measurements to a filter which process the measurements and predicts the movement of the vehicle.
 When using a camera system, it is necessary to use different coordinate systems in order to separate the image information from world information.
 
 \section{General Target Tracking}
 The main objective of target tracking is to estimate the states of a target, given some measurements or observations from, possibly, different sensors.
-A target can be any kind of object for which we are interested in estimating \eg the position, velocity, acceleration, orientation etc.
+A target can be any object for which we are interested in estimating \eg the position, velocity, acceleration, orientation etc.
 A \textit{track} is a confirmed target, \ie a target that has been associated with a number of measurements under a certain time.
 When performing target tracking, one can be interested in tracking just a single object or tracking multiple objects at the same time.
 These two cases are referred to as single-target tracking (\abbrSTT) and multiple-target tracking (\abbrMTT) \cite{Blackman:1999}.
 A typical flow chart of a \abbrMTT system can be seen in \Figureref{fig:trackingflowchart}.
-Each stage of the procedure in \Figureref{fig:trackingflowchart} are described in detail in \Tableref{tab:trackingflowchart}.
+Each stage of the procedure in \Figureref{fig:trackingflowchart} is described in detail in \Tableref{tab:trackingflowchart}.
 When tracking only a single object, the gating and measurement association are simplified compared to \abbrMTT.
 
 \begin{figure}[!ht]
@@ -27,10 +27,10 @@ When tracking only a single object, the gating and measurement association are s
 		\node (trackMaintenance) [elem, below right of=gatingAssociation, yshift=-1.5cm, xshift=2cm] {Track maintenance};
 		\node (filter) [elem, below left of=gatingAssociation,  yshift=-1.5cm, xshift=-2cm] {Filtering and \\ prediction};
 
-		\draw [->] (sensorData) -- (gatingAssociation);
-		\draw [->] (gatingAssociation) -- (trackMaintenance);
-		\draw [->] (trackMaintenance) -- (filter);
-		\draw [->] (filter) -- (gatingAssociation);
+		\draw [->,very thick] (sensorData) -- (gatingAssociation);
+		\draw [->,very thick] (gatingAssociation) -- (trackMaintenance);
+		\draw [->,very thick] (trackMaintenance) -- (filter);
+		\draw [->,very thick] (filter) -- (gatingAssociation);
 	\end{tikzpicture}
 	\caption{\label{fig:trackingflowchart} A flow chart of a typical \abbrMTT system.}
 \end{figure}
@@ -42,7 +42,7 @@ When tracking only a single object, the gating and measurement association are s
 		\hline
 		\textbf{Stage} & \textbf{Description} \\
 		\hline
-		Sensor data and measurement processing & External sensors input data to the tracking system. The data might have to be pre-processed. Examples of measurement quantities: distances, velocities and image coordinates. \\
+		Sensor data and measurement processing & External sensors input data to the tracking system. The data might have to be pre-processed. Examples of measurement quantities are: distances, velocities and image coordinates. \\
 		\hline
 		Gating and measurement association & The gating determine which observations that are possible for each track. This information is used to limit which measurements that are possible to associate with a target. The measurements that passed the gate, gets associated with tracks according to some association algorithm. One example of an association algorithm is the global nearest neighbour algorithm \cite{Blackman:1999}. \\
 		\hline
@@ -59,7 +59,7 @@ Applications of target tracking can be found in \eg radar-based air surveillance
 In \citep{Sivaraman:2013}, three different kinds of road environmental sensors are described: radars, LiDARs and cameras.
 Radars and LiDARs emits electromagnetic signals and receives echos from the surrounding environment while cameras capture the current view by saving light intensities in an image.
 
-There are several advantages from using cameras over radars or LiDARs for an \abbrADAS, but also some disadvantages \cite{Sivaraman:2013}.
+There are several advantages of using cameras over radars or LiDARs for an \abbrADAS, but also some disadvantages \cite{Sivaraman:2013}.
 
 \paragraph{Advantages:}
 \begin{itemize}
@@ -81,16 +81,16 @@ Before an object can be tracked by the vision system, it has to be detected in t
 Two examples of approaches to object detection are appearance-based and motion-based methods \citep{Sivaraman:2013}.
 
 \paragraph{Appearance-based methods:}
-Appearance-based methods use techniques to directly detect a vehicle from the image frame.
-Two different kind of appearance-based methods are feature and classification methods.
+Appearance-based methods use techniques to directly detect a vehicle in the image frame.
+Two different types of appearance-based methods are feature and classification methods.
 Feature methods use image processing techniques to look for \eg edges and symmetry in the image to detect a vehicle.
 Classification methods include machine learning algorithms trained to recognize vehicles in the image.
-One example on how the output from an appearance-based classification method can look like, can be seen in \Figureref{fig:roiexample}.
+One example on what the output from an appearance-based classification method can look like, can be seen in \Figureref{fig:roiexample}.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[angle=-90,origin=c,trim={0 0 15cm 0},width=0.9\textwidth]{roi_example}
-	\caption{\label{fig:roiexample} An example of a vehicle that has been detected in a mono camera system using a classification appearance-based method. The vehicle has been marked by a box, referred to as a region of interest (\abbrROI).}
+	\caption{\label{fig:roiexample} An example of a vehicle that has been detected in a mono camera system using a classification appearance-based method. The vehicle has been marked by a box, referred to as the region of interest (\abbrROI).}
 \end{figure}
 
 \paragraph{Motion-based methods:}
@@ -103,18 +103,18 @@ The concept exists both as sparse optical flow, \ie the optical flow for a certa
 The goal of vehicle tracking is to predict and estimate \eg the position and velocity of the targets.
 Many of the general object tracking aspects play an important role in vehicle tracking, \eg measurements, data association and \abbrMTT.
 When tracking vehicles in a mono camera system, some alternatives are possible on how to select the states.
-One can either track the vehicle in the image frame using image coordinates for position and velocity or track in \spacedim{3} world coordinates and thus use meter and meters per seconds as units.
+One can either track the vehicle in the image frame using image coordinates for position and velocity, or track in \spacedim{3} world coordinates and thus use meter and meters per seconds as units.
 Since no depth information can be obtained from just a mono camera, some additional assumptions or other methods must be used if it is desired to track the target in \spacedim{3} world coordinates.
 
 One of the main purposes of vehicle tracking is to maintain a state estimate of a vehicle even if it is not detected in a certain frame.
-The tracking can, \eg be performed with some sort of a Kalman filter \cite{Sivaraman:2013}.
+The tracking can \eg be performed with a filter of Kalman filter \cite{Sivaraman:2013} type.
 
 \section{Related Research}
 \label{sec:relatedresearch}
 There exist several successful attempts of estimating the \spacedim{3} pose of objects using a mono camera system.
-The problem of estimating the heading (including both the rotation and orientation) of a vehicle can be seen as a special case of a full \spacedim{3} pose estimation problem.
+The problem of estimating the heading (including both the orientation and angular rate) of a vehicle can be seen as a special case of a full \spacedim{3} pose estimation problem.
 A vehicle does not have the same degrees of freedom since it has limited rotation freedom.
-\Figureref{fig:vehiclerotation} shows the rotation which is of interest to estimate, \ie the rotation around the axis which is perpendicular to the vehicle's ground plane.
+\Figureref{fig:vehiclerotation} shows the rotation of interest, \ie the rotation around the axis which is perpendicular to the vehicle's ground plane.
 Some different approaches found in the literature will be mentioned here.
 
 \begin{figure}[!ht]
@@ -149,32 +149,32 @@ Some different approaches found in the literature will be mentioned here.
 	\caption{\label{fig:vehiclerotation} An illustration of which axis rotation that are of interest to estimate for a vehicle.}
 \end{figure}
 
-One straightforward way of estimating the \spacedim{3} pose of an object is to track a number of feature points over time and let an Extended Kalman filter (\abbrEKF) estimate the rotation and translation parameters \cite{Hajimolahoseini:2014}.
+One straightforward way of estimating the \spacedim{3} pose of an object is to track a number of feature points over time and let an extended Kalman filter (\abbrEKF) estimate the rotation and translation parameters \cite{Hajimolahoseini:2014}.
 By including the projection from \spacedim{3} to \spacedim{2}, the \abbrEKF estimates all necessary states directly.
-No extra step in dealing with the image projection is necessary.
-The drawback is that the initial \spacedim{3} coordinates of the feature points must be known to a certain degree, which can be difficult to guess from just a single image.
+No extra step to deal with the image projection is necessary.
+The drawback is that the initial \spacedim{3} coordinates of the feature points must be known to a certain degree, which can be difficult to obtain from just a single image.
 This method utilizes only image coordinates from the selected feature points as measurements.
 
 In \cite{Blostein:2000}, another approach of estimating the \spacedim{3} pose is proposed.
 Here, the \spacedim{3} trajectory and object structure are recovered from a sequence of images.
 Especially, the optical flow for each selected feature point is utilized to improve the estimate instead of just using the image coordinates of feature points.
 The usage of quaternions can be questioned, but might be good if the tracked object rotates in all three degrees of freedoms.
-Using quaternions avoids the gimbal lock, which can occur when some of the angles approaches 90 degrees \cite{Gustafsson:2012}.
+Using quaternions avoids the gimbal lock, which can occur when the pitch angle approaches 90 degrees \cite{Gustafsson:2012}.
 
 Using the concept of homographies, \ie to estimate how planes have transformed between frames, is another concept, utilized in \cite{Gabb:2013}.
 Here, the homography is estimated between frames in order to create a measurement of the angular rate of the target vehicle.
 This method relies on having good correspondence between feature points in consecutive frames.
-The Kanade-Lucas-Tomasi (\abbrKLT), \eg \cite{Szeliski:2011}, feature tracker where used to track feature correspondence between image frames.
-The constructed measurement where used together with an \abbrEKF to smooth the state estimates.
+The Kanade-Lucas-Tomasi (\abbrKLT) feature tracker, \eg \cite{Szeliski:2011}, were used to track feature correspondences, between image frames.
+The constructed measurement was used together with an \abbrEKF to obtain the state estimates.
 
 In \cite{Mondragon:2010}, the homography concept is used in a somewhat similar manner.
-Here, the yaw angle of an Unmanned Aerial Vehicle (\abbrUAV) is estimated by estimating the homographies over time.
+Here, the yaw angle of an unmanned aerial vehicle (\abbrUAV) is estimated by estimating the homographies over time.
 A helipad is placed on the ground as a reference plane onto which the homography is estimated.
 Two flight tests where presented, and the resulting root-mean-square error (\abbrRMSE) of the yaw angle were $2.5^\circ$ and $4.9^\circ$, respectively.
 A IMU where used as ground truth data.
 
 \section{Coordinate Systems}
-When tracking targets from a host, referring to the host as the ego car in which the camera system is located, some terminology about different coordinate systems are necessary.
+To describe tracking targets from a host, referring to the host as the ego car in which the camera system is located, some terminology about different coordinate systems is necessary.
 First, we have the difference between a world coordinate system  and an image coordinate system.
 A world coordinate system is a coordinate system in \spacedim{3} representing how objects are positioned in the world.
 An image coordinate system is the \spacedim{3} world coordinates projected onto a \spacedim{2} image plane.
@@ -194,7 +194,8 @@ It is used to \eg express measurements from a mono camera system.
 \end{figure}
 
 Two world coordinate systems are defined and used in this thesis: the target's coordinate system and the host's coordinate system.
-The states of the tracked target will be expressed both in the host's world coordinate system and in the target's world coordinate system. They are defined in \Figureref{fig:hostcoordsystem} and \Figureref{fig:targetcoordsystem}, respectively.
+The states of the tracked target will be expressed in both the host's world coordinate system and the target's world coordinate system.
+They are defined in \Figuresref{fig:hostcoordsystem} and \ref{fig:targetcoordsystem}, respectively.
 
 \begin{figure}[!ht]
     \centering
@@ -214,7 +215,7 @@ The states of the tracked target will be expressed both in the host's world coor
 
 		\draw[->] (-1.5, 1.4) -- (1.5, 1.4) node[anchor=south east] {Traveling direction};
     \end{tikzpicture}
-    \caption{\label{fig:hostcoordsystem} The definition of the host's coordinate system. The coordinate system is placed at the height of the mounted camera system with the origin placed at the camera lens sensor. The $x$-direction points in the same direction as the host itself, the $y$-direction is pointing to the left when looking in the host's direction and the $z$-direction is pointing upwards.}
+    \caption{\label{fig:hostcoordsystem} The definition of the host's coordinate system. The coordinate system is placed at the height of the mounted camera system with the origin placed at the principal point of the camera. The $x$-direction points in the same direction as the host itself, the $y$-direction points to the left when looking in the host's direction and the $z$-direction points upwards.}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -228,20 +229,20 @@ The states of the tracked target will be expressed both in the host's world coor
 		\draw[->] (origo) -- (-2,-1) node[anchor=east] {$y$};
 		\draw[->] (1.9,-1.5) -- (1.9,1.5) node[pos=0.5, anchor=west] {Traveling direction};
     \end{tikzpicture}
-    \caption{\label{fig:targetcoordsystem} The definition of the target's coordinate system. The coordinate system is placed at the center of the rear axis of the target. The $x$-direction points in the same direction as the target itself, the $y$-direction is pointing to the left when looking in the target's direction and the $z$-direction is pointing upwards.}
+    \caption{\label{fig:targetcoordsystem} The definition of the target's coordinate system. The coordinate system is placed at the center of the rear axis of the target. The $x$-direction points in the same direction as the target itself, the $y$-direction  points to the left when looking in the target's direction and the $z$-direction points upwards.}
 \end{figure}
 
 \section{The Pinhole Camera Model}
 One basic camera model is the pinhole camera model \cite{Hartley:2004}.
 It describes how a point in world coordinates projects onto the image coordinate system.
-\Figureref{fig:pinholecameraex} illustrates how a point $(x, y, z)^T$ is mapped in the $v$-direction onto the image plane.
-If the camera has the focal length $f$, in both the $u$- and $v$-direction, and by identifying similar triangles, the resulting mapping from \spacedim{3} to \spacedim{2} is
+\Figureref{fig:pinholecameraex} illustrates how a point $(x, y, z)^T$ is mapped onto the image plane.
+If the camera has the focal lengths $f_u$ and $f_v$, and by identifying similar triangles, the resulting mapping from \spacedim{3} to \spacedim{2} is
 \begin{equation*}
-    (x, y, z)^T \mapsto \left(f\frac{y}{x}, f\frac{z}{x}, f\right)^T,
+    (x, y, z)^T \mapsto \left(f_u\frac{y}{x}, f_v\frac{z}{x}\right)^T,
 \end{equation*}
 \ie
 \begin{equation*}
-    (u, v)^T \mapsto \left(f\frac{y}{x}, f\frac{z}{x}\right)^T.
+    (u, v)^T \mapsto \left(f_u\frac{y}{x}, f_v\frac{z}{x}\right)^T.
 \end{equation*}
 
 \begin{figure}[!ht]
@@ -266,18 +267,18 @@ If the camera has the focal length $f$, in both the $u$- and $v$-direction, and 
 		\draw[] (origin) -- (6,3) node[anchor=west] {$(x,y,z)$} node[circle,fill,inner sep=1pt] {};
 		
 		% Focal axis
-		\draw[->] (0,-0.25) -- (2,-0.25) node[pos=0.5,anchor=north] {$f$};
+		\draw[->] (0,-0.25) -- (2,-0.25) node[pos=0.5,anchor=north] {$f_v$};
 
 		% Projected size in image
-		\draw[->] (2.25,0) -- (2.25, 1) node[pos=0.5,anchor=west] {$f \frac{z}{x}$};
+		\draw[->] (2.25,0) -- (2.25, 1) node[pos=0.5,anchor=west] {$f_v \frac{z}{x}$};
 	\end{tikzpicture}
-	\caption{\label{fig:pinholecameraex} A world coordinate $(x, y, z)^T$ is projected on the image plane. The figure shows the projection in the $v$-direction. This can similarly be done to obtain the $u$ coordinate. }
+	\caption{\label{fig:pinholecameraex} A world coordinate $(x, y, z)^T$ is projected on the image plane. The figure shows the similar triangles for the projection in the $v$-direction.}
 \end{figure}
 
 \section{Homography}
 \label{sec:homography}
 The homography is a projective transformation.
-The exact definition and more about projective transformations can be found in \eg \cite{Hartley:2004}, more precisely as Definition 2.9, 2.11 and Theorem 2.10.
+The exact definition and more about projective transformations can be found in \eg \cite{Hartley:2004}, more precisely as Definitions 2.9 and 2.11, and Theorem 2.10.
 Definition 2.11 from \cite{Hartley:2004} is of special interest, so it is recapitulated here and referred to as \Definitionref{def:projtrans}.
 
 \begin{definition}[Projective transformation] \label{def:projtrans}
@@ -296,26 +297,28 @@ Definition 2.11 from \cite{Hartley:2004} is of special interest, so it is recapi
 \end{definition}
 %
 As described in \cite{Nordberg:2015}, any nonzero scalar multiplied into $\bm{H}$ is also a representative of the same homography.
-Therefore can the projective transformation be formulated as
+The projective transformation can therefore be formulated as
 %
+\begin{subequations}
 \begin{equation}
 	\label{eq:homography}
 	\bm{x}^\prime \sim \bm{H} \bm{x},
 \end{equation}
 %
-or by using equality sign,
+or by using an equality sign,
 %
 \begin{equation}
 	\label{eq:homographyequality}
 	\gamma \bm{x}^\prime = \bm{H} \bm{x},
 \end{equation}
+\end{subequations}
 %
 for some nonzero scalar $\gamma$.
 One example of how a projective transformation can be used, mentioned in \cite{Hartley:2004}, is mapping between planes. 
 This is the idea used in \cite{Gabb:2013} to estimate the angular rate of vehicles and in \cite{Mondragon:2010} to estimate the yaw angle of a \abbrUAV.
 
-So the problem of estimating how a plane in \spacedim{3}, given a set of image coordinates $\bm{x}_i \in \mathbb{P}^2$ and a corresponding set of image coordinates $\bm{x}^\prime_i \in \mathbb{P}^2$, have moved (translated and rotated) between two frames is equivalent to solving the homography $\bm{H}$ for the two correspondence set of homogeneous image coordinates $\bm{x} = (u_i, v_i, 1)^T$ and $\bm{x}^\prime = (u^\prime_i, v^\prime_i, 1)^T$.
-By corresponding points, the interpretation is a point before and after the homography transformation.
+The problem of estimating how a plane in \spacedim{3}, given a set of image coordinates $\bm{x}_i \in \mathbb{P}^2$ and a corresponding set of image coordinates $\bm{x}^\prime_i \in \mathbb{P}^2$, has moved (translated and rotated) between two frames is equivalent to finding the homography $\bm{H}$ for the two correspondence set of homogeneous image coordinates $\bm{x} = (u_i, v_i, 1)^T$ and $\bm{x}^\prime = (u^\prime_i, v^\prime_i, 1)^T$.
+The interpretation of corresponding points is a point before and the same point after the homography transformation.
 There exist several methods for finding the homography from the correspondence points.
 
 \subsection{Direct Linear Transform}
@@ -356,7 +359,7 @@ is obtained and is referred to as a direct linear transformation (\abbrDLT), \eg
 	.
 \end{equation}
 %
-Formulating \eqref{eq:geoerrorhomography} as a least-squares cost function, the problem consists of minimizing
+Viewing \eqref{eq:geoerrorhomography} as a least squares problem, turns \eqref{eq:geoerrorhomography} into the optimization problem
 %
 \begin{equation}
 	\min_{\bm{h}} \sum_i
@@ -366,8 +369,8 @@ Formulating \eqref{eq:geoerrorhomography} as a least-squares cost function, the 
 
 \subsection{Random Sample Consensus}
 \label{sec:ransac}
-If the data contains outliers, the \abbrDLT solution generally results in a bad estimation.
-Since all data points have equal weights, outliers, \ie points that do not fit the estimated model, can have a significant impact on the estimation result.
+If the data contains outliers, the \abbrDLT solution generally results in a bad estimate.
+Since all data points have equal weights, outliers, \ie points that do not fit the estimated model, can have significant impact on the estimation result.
 Random sample consensus (\abbrRANSAC), \eg \cite{Hartley:2004} and \cite{Nordberg:2015}, is one method which can improve the result if the data set contains outliers.
 The method contains some tuning parameters selected by the user.
 Some notable notations used in the algorithm are:
@@ -380,7 +383,7 @@ Some notable notations used in the algorithm are:
 \end{description}
 
 The complete algorithm with all details can be found in \cite{Nordberg:2015}.
-Here, a brief overview of the algorithm is summarized in \Algorithmref{algo:ransach}.
+Here, a brief overview of the algorithm is provided in \Algorithmref{algo:ransach}.
 
 \begin{algorithm}[!ht]
 	\caption{\label{algo:ransach} A \abbrRANSAC algorithm for estimating the homography}
@@ -414,22 +417,22 @@ There exist mainly three different steps, where the last step can be performed i
 They are:
 
 \begin{description}[align=left,labelwidth=3cm]
-	\item [Feature detection] Find and extract image points that are easily recognisable and distinguish from its surroundings. Typically, this means points that have a large image gradient.
-	\item [Feature description] A descriptor is an alternative representation of the image point. Its purpose is to be a more robust description of the feature point and its surrounding region. Examples of descriptors are: Scale-invariant feature transform (SIFT) and gradient location and orientation histogram (GLOH) \cite{Szeliski:2011}.
-	\item [Feature matching] Feature points are separately extracted from two consecutive images and then are the descriptors compared in order to matched points between the two images.
+	\item [Feature detection] Find and extract image points that are easily recognisable and distinguishable from its surroundings. Typically, this means points that have a large image gradient.
+	\item [Feature description] A descriptor is an alternative representation of the image point. Its purpose is to be a robust description of the feature point and its surrounding region. Examples of descriptors are: Scale-invariant feature transform (SIFT) and gradient location and orientation histogram (GLOH) \cite{Szeliski:2011}.
+	\item [Feature matching] Feature points are separately extracted from two consecutive images and then the descriptors are compared in order to matched points between the two images.
 	\item [Feature tracking] Instead of matching extracted feature points between two images, one can in the second frame search for the feature points detected in the first frame, \ie track the feature points. The \abbrKLT tracker is a popular feature point tracker.
 \end{description}
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{155532_harris_features}
-	\caption{\label{fig:featurepointexample} An example of an image with detected feature points marked as green crosses. Here, the Harris–Stephens corner detection algorithm \cite{Harris:1988} were used to detect interesting points.}
+	\caption{\label{fig:featurepointexample} An example of an image with detected feature points marked as green crosses. Here, the Harris–Stephens corner detection algorithm \cite{Harris:1988} was used to detect interesting points.}
 \end{figure}
 
 \newpage
 
 \section{Extended Kalman Filtering}
-Kalman filtering \cite{Gustafsson:2012} is one method on how to solve the filtering problem of tracking a target.
+Kalman filtering \cite{Gustafsson:2012} is one filtering method used to track a target.
 If the target is moving according to some motion model, $\bm{f}(\bm{x}_k,\bm{u}_k,\bm{v}_k)$, and measurements are generated according to some measurement model, \\ $\bm{h}(\bm{x}_k,\bm{u}_k,\bm{e}_k)$, the system is described by
 \begin{align}
 \begin{split}
@@ -470,7 +473,8 @@ The algorithm is based on the first order moment Taylor expansion.
 
 \section{Observability Analysis}
 \label{sec:obsanalysis}
-In order to make sure that a state estimation problem for a system on linear state space form,
+To be able to estimate the state $\bm{x}_k$, from the available measurements, the system must be observable.
+For a system on linear state-space form,
 \begin{align}
 \label{eq:linearss}
 \begin{split}
@@ -478,12 +482,11 @@ In order to make sure that a state estimation problem for a system on linear sta
 	\bm{y}_k &= \bm{C}_k \bm{x}_k + \bm{D}_k \bm{u}_k,
 \end{split}
 \end{align}
-can be determined using the output \ie by using the measurements, the observability can be investigated.
-In \cite{Rugh:1996}, it is shown how the observability Gramian can be used for this purpose.
+the observability can be determined using the observability Gramian \cite{Rugh:1996}.
 Recalling the definition of observability from \cite{Rugh:1996}, which gives \Definitionref{def:observability}.
 
 \begin{definition}[Observability] \label{def:observability}
-	The linear state space model \eqref{eq:linearss} is called observable in the interval $[t_0, t_N]$ if any initial state $\bm{x}_0$ is uniquely determined by the corresponding zero-input response $\bm{y}_k$ for $k=t_0,\dots,t_N-1$.
+	The linear state-space model \eqref{eq:linearss} is observable in the interval $[t_0, t_N]$ if any initial state $\bm{x}_0$ is uniquely determined by the corresponding zero-input response $\bm{y}_k$ for $k=t_0,\dots,t_N-1$.
 \end{definition}
 
 The condition for having an observable linear state equation is given by \Theoremref{th:observability} from \cite{Rugh:1996}.
@@ -508,7 +511,7 @@ Here, the matrix $\bm{M}$ is the observability Gramian and $\bm{\Phi}$ is the tr
 		\end{cases}
 \end{equation}
 %
-In the case of a nonlinear state space model,
+In the case of a nonlinear state-space model,
 %
 \begin{align}
 \label{eq:nlss}
@@ -518,8 +521,8 @@ In the case of a nonlinear state space model,
 \end{split}
 \end{align}
 %
-where the control signal $\bm{u}_k$ has been omitted, the state space model first has to be linearized.
-By linearizing through Taylor expansion and retain only the first order terms, the resulting linearized state space model is
+where the control signal $\bm{u}_k$ has been omitted, the state-space model first has to be linearized.
+By linearizing using a Taylor expansion and retaining only the first order terms, the resulting linearized state-space model is
 %
 \begin{equation}
 \begin{split}

@@ -388,7 +388,8 @@ where $e_{\text{Bottom, front}}$ is the measurement noise.
 
 \subsection{Angular Rate Measurements}
 \label{sec:angratemeas}
-By selecting feature points inside the \abbrROI, and by using the knowledge of how pairs of feature points have moved between two images, the homography can be estimated.
+By selecting feature points inside the lower half of the \abbrROI, and by using the knowledge of how pairs of feature points have moved between two images, the homography can be estimated.
+The lower half of the \abbrROI was selected in order to get feature points lying on a planar surface.
 The homography can be decomposed into a rotation matrix $\rotmat$, translation vector $\bm{t}$ and a plane normal vector $\bm{n}$.
 Here, the plane normal is the normal of the plane before the homography transformation.
 A brief overview of the decomposition will be presented here.

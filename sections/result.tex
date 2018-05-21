@@ -1,8 +1,8 @@
 \chapter{Performance Evaluation}
 \label{cha:result}
 The filter has been evaluated in several different ways.
-To get an idea of if the filter has a reasonable formulation or not, an initial observability analysis has been done.
-Because if the filter formulation is not plausible, a reformulation of the problem might be necessary.
+To get an idea if the filter structure is reasonably formulated or not, an initial observability analysis has been done.
+If the filter structure, including the target modelling and measurement setups, is not plausible, a reformulation of the problem might be necessary.
 Monte Carlo simulations were then used to obtain some statistical properties, and a theoretical performance analysis, without having to calculate it analytically.
 Since the filter depends on the quality of the constructed angular rate measurements, the selected homography estimation method has been evaluated through simulations.
 
@@ -10,9 +10,9 @@ To see how the filter perform compared to a stereo camera system, two sequence w
 
 \section{Observability Along Different Trajectories}
 \label{sec:observabilityresult}
-In order to see if the filter is reasonably formulated, an observability analysis according to \Sectionref{sec:observabilitymethod} has been performed and summarized in \Tableref{tab:observabilityresult}.
+In order to see if the filter structure is reasonably formulated, \ie if the target modelling and the measurement setups have been suitably chosen, an observability analysis according to \Sectionref{sec:observabilitymethod} has been performed and summarized in \Tableref{tab:observabilityresult}.
 The results show that the filter is formulated such that a trajectory with a moving target seems to be observable.
-A trajectory of a target with no ego motion is observable only if all three kind of measurements are available.
+A trajectory of a target with no ego motion is observable only if all three types of measurements are available.
 It is not observable if only \abbrROI and angular rate measurements are available.
 
 \begin{table}[!ht]
@@ -41,7 +41,7 @@ A intuitive explanation to why that particular situation is not observable is th
 For example could the same \abbrROI appear if the target is rotated either $\pm\psi$ and the $(x,y,z)^T$ position is adjusted accordingly.
 The \abbrROI will appear the same in the image plane.
 
-Since it is difficult to prove general observability for nonlinear systems, these results at least gives a hint that the problem is reasonably formulated.
+Since it is difficult to prove general observability for nonlinear systems, these results at least gives a hint if the filtering problem is solvable or not.
 The filter should, in the selected test cases where the target had an ego motion, be able to estimate the given trajectory.
 
 \newpage
@@ -49,7 +49,7 @@ The filter should, in the selected test cases where the target had an ego motion
 \section{Monte Carlo Simulations}
 \label{sec:montecarloresult}
 By first simulating the filter using the Monte Carlo method, a rough evaluation of the filter's performance can be obtained.
-By using Monte Carlo simulations, the available measurements and the measurement noise levels can be controlled.
+In Monte Carlo simulations, the available measurements and the measurement noise levels can be controlled.
 It is always good to know what to strive for when running the filter on real-world data.
 The goal of performing the Monte Carlo simulations is to get results about what qualities on the measurements that are required in order to get a good state estimate, especially regarding the angular rate measurements.
 
@@ -138,16 +138,16 @@ In this scenario, the covariance matrices $\bm{Q}$ and $\bm{R}$ were
 in all setup cases.
 The matrix $\bm{R}^\text{sim}$ is given by \eqref{eq:Rsim}.
 
-The results for each setup can be seen in \Figureref{fig:27montesimstraighttowardsroirmse}, \Figureref{fig:20montesimstraighttowardsroiangvelrmse}, \Figureref{fig:21montesimstraighttowardsroiangvelrmse}, \Figureref{fig:22montesimstraighttowardsroiangvelrmse} and \Figureref{fig:30montesimstraighttowardsroiangvelcornerrmse}.
-Examples of the simulated trajectories can be found in \Figureref{fig:27montesimstraighttowardsroitrajpos}, \Figureref{fig:27montesimstraighttowardsroitrajother}, \Figureref{fig:20montesimstraighttowardsroiangveltrajpos}, \Figureref{fig:20montesimstraighttowardsroiangveltrajother}, \Figureref{fig:30montesimstraighttowardsroiangvelcornertrajpos} and \Figureref{fig:30montesimstraighttowardsroiangvelcornertrajother} in \Appendixref{app:montecarlo}.
+The results for each setup can be seen in \Figuresref{fig:27montesimstraighttowardsroirmse}--\ref{fig:30montesimstraighttowardsroiangvelcornerrmse}.
+Examples of the simulated trajectories can be found in \Figuresref{fig:27montesimstraighttowardsroitrajpos}--\ref{fig:30montesimstraighttowardsroiangvelcornertrajother} in \Appendixref{app:montecarlo}.
 
 If only \abbrROI measurements were used, the filter performed poorly as can be seen in \Figureref{fig:27montesimstraighttowardsroirmse}.
-Especially regarding the orientation, \ie the yaw angle.
-If additionally to the \abbrROI measurement, angular rate measurements were added, a significant improvement were obtained, as can be seen in \Figureref{fig:20montesimstraighttowardsroiangvelrmse}.
+Especially with regard to the orientation, \ie the yaw angle.
+If additionally to the \abbrROI measurements, angular rate measurements were added, a significant improvement were obtained, as can be seen in \Figureref{fig:20montesimstraighttowardsroiangvelrmse}.
 Here, the noise variance level were 0.1 rad/s.
-In \Figureref{fig:21montesimstraighttowardsroiangvelrmse} and \Figureref{fig:22montesimstraighttowardsroiangvelrmse}, the \abbrRMSE of the estimated states diverged quickly due to the high noise level of the angular rate measurements.
+In \Figuresref{fig:21montesimstraighttowardsroiangvelrmse} and \ref{fig:22montesimstraighttowardsroiangvelrmse}, the \abbrRMSE of the estimated states diverged quickly due to the high noise level of the angular rate measurements.
 The noise variance levels were 0.5 rad/s and 1 rad/s, respectively.
-Note especially the difference in the yaw angle comparing \Figureref{fig:20montesimstraighttowardsroiangvelrmse} with \Figureref{fig:21montesimstraighttowardsroiangvelrmse} and \Figureref{fig:22montesimstraighttowardsroiangvelrmse}.
+Note especially the difference in the yaw angle comparing \Figureref{fig:20montesimstraighttowardsroiangvelrmse} to \Figuresref{fig:21montesimstraighttowardsroiangvelrmse} and \ref{fig:22montesimstraighttowardsroiangvelrmse}.
 The idea of adding the measurements of the target's corners, considering \Figureref{fig:30montesimstraighttowardsroiangvelcornerrmse}, resulted in an excellent state estimate.
 
 \begin{figure}[!ht]
@@ -225,14 +225,14 @@ In this scenario, the covariance matrices $\bm{Q}$ and $\bm{R}$ were
 in all setup cases.
 The matrix $\bm{R}^\text{sim}$ is given by \eqref{eq:Rsim}.
 
-The results for each setup can be seen in \Figureref{fig:13montesimcrossingroirmse}, \Figureref{fig:23montesimcrossingroiangvelrmse}, \Figureref{fig:24montesimcrossingroiangvelrmse}, \Figureref{fig:25montesimcrossingroiangvelrmse} and \Figureref{fig:29montesimcrossingroiangvelcornerrmse}.
-Examples of the simulated trajectories can be found in \Figureref{fig:13trajectorycrossingroipos}, \Figureref{fig:13trajectorycrossingroiother}, \Figureref{fig:23trajectorycrossingroiangvelpos}, \Figureref{fig:23trajectorycrossingroiangvelother}, \Figureref{fig:29trajectorycrossingroiangvelcornerpos} and \Figureref{fig:29trajectorycrossingroiangvelcornerother} in \Appendixref{app:montecarlo}.
+The results for each setup can be seen in \Figuresref{fig:13montesimcrossingroirmse}--\ref{fig:29montesimcrossingroiangvelcornerrmse}.
+Examples of the simulated trajectories can be found in \Figuresref{fig:13trajectorycrossingroipos}--\ref{fig:29trajectorycrossingroiangvelcornerother} in \Appendixref{app:montecarlo}.
 
 \Figureref{fig:13montesimcrossingroirmse} shows that if only \abbrROI measurements are used, a large \abbrRMSE were obtained of the estimated states.
 The large \abbrRMSE of the angular rate state during the turn affects the rest of the states, especially the yaw angle.
-In the simulation, as in the first scenario, the results gets improved by adding angular rate measurements.
+In the simulation, as in the first scenario, the results are improved by adding angular rate measurements.
 In \Figureref{fig:23montesimcrossingroiangvelrmse}, the angular rate noise variance level were 0.1 rad/s.
-If the angular rate measurements had too high noise variance level, the \abbrRMSE of the estimated state started to diverge, as in \Figureref{fig:24montesimcrossingroiangvelrmse} and \Figureref{fig:25montesimcrossingroiangvelrmse}.
+If the angular rate measurements had too high noise variance level, the \abbrRMSE of the estimated state started to diverge, as in \Figuresref{fig:24montesimcrossingroiangvelrmse} and \ref{fig:25montesimcrossingroiangvelrmse}.
 The angular rate measurements variance noise levels were 0.5 rad/s and 1 rad/s, respectively.
 As well as in the previous simulation, the result got significantly improved by adding the measurements of the target's corners, considering \Figureref{fig:29montesimcrossingroiangvelcornerrmse}.
 
@@ -277,27 +277,27 @@ A measurement noise variance of 0.5 rad/s is too large in order to obtain a good
 
 \section{Homography Estimation}
 \label{sec:homographyestimationresults}
-It is of great interest to see how good homography estimations that can be achieved.
+It is of great interest to see how good homography estimates that can be achieved.
 As can be seen from the Monte Carlo simulations in \Sectionref{sec:montecarloresult}, the angular rate measurements have the possibility to improve the result, if they have a low enough noise level.
 
-Some experimenting on synthetic data has been performed in order to evaluate the result of the homography estimations.
+Some experimentation on synthetic data has been performed in order to evaluate the result of the homography estimations.
 A rectangle was created, and it used the same motion model as described in \eqref{eq:motionmodel}, to represent the possible backside of a target vehicle.
 The tracked points on the rectangle were the four corner points and an additional number of randomly selected uniformly distributed points on the rectangle.
 The rectangle performed a trajectory where it travelled straight away and then turned left.
 In order to perturb the synthetic data, Gaussian noise was added when projecting the points on the rectangle onto the image plane.
 This will make the points to not lie perfectly on the same plane.
 
-To perform the homography estimations, \matlab mex functions that interfaced the OpenCV library \cite{mexopencv} were used, both when estimating the homography matrix $\bm{H}$ and when performing the decomposition into $\rotmat, \bm{t}$ and $\bm{n}$.
+To perform the homography estimation, \matlab mex functions that interfaced the OpenCV library \cite{mexopencv} were used, both when estimating the homography matrix $\bm{H}$ and when performing the decomposition into $\rotmat, \bm{t}$ and $\bm{n}$.
 
-The results of the synthetic data simulation can be seen in \Figureref{fig:rectsim1e-2}, \Figureref{fig:rectsim5e-2}, \Figureref{fig:rectsim1e-1} and \Figureref{fig:rectsim5e-1}.
+The results of the synthetic data simulation can be seen in \Figuresref{fig:rectsim1e-2}--\ref{fig:rectsim5e-1}.
 Different noise levels were used in each of the four simulations.
-The number of tracked points inside the rectangle were 30 points in total for all the four simulations.
-The rectangle was travelling with a constant velocity of 5 m/s and between frame number 35 and 65 it was performing a turn with a constant angular rate of 0.25 rad/s.
+In the four simulations, 30 points were tracked inside the rectangle.
+The rectangle was travelling with a constant velocity of 5 m/s and between frame number 35 and 65 it performed a turn with a constant angular rate of 0.25 rad/s.
 The distance travelled were between 5 to 30 meters.
 
 By observing the result from the homography estimation with synthetic data, several things can be stated:
 \begin{itemize}
-	\item If the matching pixels do not match good enough, \ie the errors in matched pixel coordinates are too large, the quality of the estimated homography will be reduced.
+	\item If the matching pixels do not match well enough, \ie the errors in matched pixel coordinates are too large, the quality of the estimated homography will be reduced.
 	\item At a distance further away, the mismatching pixels will have an even larger effect on the homography estimation.
 	\item If the target is far away, not even a small mismatch error might be good enough for estimating the homography, since the movement of the feature points is so small.
 \end{itemize}
@@ -308,7 +308,7 @@ In \Figureref{fig:angvelmeas155532}, one can see that the angular rate measureme
 \Figureref{fig:angvelmeas155733} shows a negative trend of the angular rate measurements, since the target vehicle is turning to the right.
 In order to have a comparison, the estimated angular rate state from a stereo camera system is shown in the same figure.
 
-Looking at \Figureref{fig:angvelmeas}, some reasonable explanations to the noisy results could be that the feature point tracker does not perform good enough or that the selected feature point detector did not detect enough feature points.
+Looking at \Figureref{fig:angvelmeas}, some reasonable explanations to the noisy results could be that the feature point tracker does not perform well enough or that the selected feature point detector did not detect enough feature points.
 Another explanation might be that the OpenCV implementation for finding and decomposing the homography matrix is too sensitive to noise, even though a \abbrRANSAC method (see \Sectionref{sec:ransac}) was utilized.
 
 By further analysing the angular rate measurements from \Figureref{fig:angvelmeas}, their respectively variances could be calculated.
@@ -320,7 +320,7 @@ It reasonable to believe that the feature points will be even more difficult to 
 
 The detection and tracking of feature points where implemented using \matlab's computer vision system toolbox.
 For feature point detection, the minimum eigenvalue algorithm \cite{mineigendetector:2018} and the Harris–Stephens algorithm \cite{harrisdetector:2018} were used.
-For feature point tracking, the KLT feature point tracker \cite{pointtracker:2018} were used.
+For feature point tracking, the KLT feature point tracker \cite{pointtracker:2018} was used.
 
 A potential error source is the spatial location of the detected feature points.
 In \cite{Bostanci:2012}, it is emphasized that the spatial location of the feature points affects the accuracy of the homography estimation.
@@ -336,25 +336,25 @@ It might be that this method is not the correct way of selecting the final solut
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{RectangleSim/rect_1e-2}
-	\caption{\label{fig:rectsim1e-2} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.01 pixels were added when the points on the rectangle were projected into the image plane.}
+	\caption{\label{fig:rectsim1e-2} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.01 pixels was added when the points on the rectangle were projected into the image plane.}
 \end{figure}
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{RectangleSim/rect_5e-2}
-	\caption{\label{fig:rectsim5e-2} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.05 pixels were added when the points on the rectangle were projected into the image plane.}
+	\caption{\label{fig:rectsim5e-2} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.05 pixels was added when the points on the rectangle were projected into the image plane.}
 \end{figure}
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{RectangleSim/rect_1e-1}
-	\caption{\label{fig:rectsim1e-1} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.1 pixels were added when the points on the rectangle were projected into the image plane.}
+	\caption{\label{fig:rectsim1e-1} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.1 pixels was added when the points on the rectangle were projected into the image plane.}
 \end{figure}
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{RectangleSim/rect_5e-1}
-	\caption{\label{fig:rectsim5e-1} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.5 pixels were added when the points on the rectangle were projected into the image plane.}
+	\caption{\label{fig:rectsim5e-1} Simulation result with synthetic data from a travelling rectangle. Here, Gaussian noise with a standard deviation of 0.5 pixels was added when the points on the rectangle were projected into the image plane.}
 \end{figure}
 
 \begin{figure}[!ht]
@@ -377,17 +377,17 @@ It might be that this method is not the correct way of selecting the final solut
 
 \section{Comparison with a Stereo Camera System}
 One of the goals with this \ms was to evaluate the performance of the mono tracker constructed in this thesis with a stereo system.
-For this purpose, real-world data were collected with a stereo camera system to use as ''ground truth''.
+For this purpose, real-world data were collected with a stereo camera system to use as ground truth.
 The two sequences, which a comparison has been performed with, are shown in \Figureref{fig:sequence155532} and \Figureref{fig:sequence155733}.
 The first sequence contains a target which travels straight forward and the second sequence contains a target which makes a turn to the right.
 
-The resulting state comparisons are presented in \Figureref{fig:comparison155532} and \Figureref{fig:comparison155733}.
+The resulting state comparisons are presented in \Figuresref{fig:comparison155532} and \ref{fig:comparison155733}.
 The estimated states from the stereo camera had poor performance in some parts of the sequence.
 In the first sequence, the poor stereo states estimates in $x$ and $\psi$ around frame number 100 gave a large error in the comparison.
 In the second sequence, the poor stereo states estimates in $v$ and $\omega$ around frame number 72 gave a large error in the comparison.
 
 When the target is travelling straight, there is less performance to gain by adding the corners as measurements compared to just using the \abbrROI and angular rate as measurements.
-Compare \Figureref{fig:roiangvel155532} with \Figureref{fig:roicorner155532} and \Figureref{fig:all155532}.
+Compare \Figureref{fig:roiangvel155532} with \Figuresref{fig:roicorner155532} and \ref{fig:all155532}.
 This might depend on that the generated angular rate measurements were better for this particular scenario, see \Figureref{fig:angvelmeas155532}, than for the turning scenario in \Figureref{fig:angvelmeas155733}.
 
 By looking in \Figureref{fig:angvelmeas155733}, one can see that the angular rate measurements overestimates the turning rate.

@@ -1,10 +1,10 @@
 \chapter{Filter Construction and Methodology}
 \label{cha:method}
 
-In this chapter, a method is proposed on how to solve the heading estimation problem.
-The main idea is to compute how the front (or the back) of the target has been moving between two consecutive frames, \ie estimate the homography.
+In this chapter, a method is proposed to solve the heading estimation problem.
+The main idea is to compute how the front (or the back) of the target has moved between two consecutive frames, \ie estimate the homography.
 From the homography, the relative rotation, \ie the angular rate, can be extracted and used as a measurement.
-By combining the new angular rate measurement and \abbrROI measurements from machine learning algorithms, together with a suitable vehicle and motion model, the system can be implemented in \matlab and evaluated against a stereo camera system.
+By combining the new angular rate measurement and \abbrROI measurements from machine learning algorithms, together with a suitable vehicle and motion model, the system can be implemented in \matlab and evaluated against results from a stereo camera system.
 
 The chapter describes the motion model used to predict the motion of the target, the measurement model for both the image detections and angular rate and how all are fused together in an \abbrEKF.
 It also describes how to, if they were accessible, incorporate measurements of the target vehicle's corners into the model.
@@ -63,13 +63,14 @@ where $\rotmat$ is the \spacedim{2} rotation matrix, defined as
 and $v^x, v^y, v^z, v^v, v^\psi$ and $v^\omega$ are the process noise.
 
 The notation used in \eqref{eq:motionmodel} is defined in \Tableref{tab:motionmodel} and \Figureref{fig:motionmodel} illustrates how the notions are related to the target vehicle.
+One thing to note is that the tracking is performed relative to the host, \ie the position and orientation are expressed in the host's world coordinate system.
 Compared to the constant velocity model in \cite{Gustafsson:2012}, some differences can be noted.
 The $z$-position is assumed to be constant for natural reasons.
 The angular rate $\omega$ is also assumed to be constant and the yaw angle $\psi$ is updated accordingly.
 
 \begin{figure}[!ht]
 	\centering
-	\begin{tikzpicture}
+	\begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
         % --- Draw rectangle car ---
         \draw (0,0) -- (3,1) -- (1.5,5.5) -- (-1.5,4.5) -- cycle;
         \draw[dashed] (-0.5,1.5) -- (2.5,2.5) node[pos=0.6, anchor=north] {$(x,y,z)$};
@@ -117,7 +118,7 @@ where $\bm{f}_{\text{Ego}}$ is the function which compensates for the host's ego
 \end{table}
 
 \section{Measurement Vehicle Model}
-In order to estimate the rotation and orientation, \ie the heading of a target, a measurement model must be constructed.
+In order to estimate the orientation and angular rate, \ie the heading of a target, a measurement model must be constructed.
 In \Figureref{fig:vehiclemodel}, the target vehicle is modelled as a rectangle.
 The notation used in \Figureref{fig:vehiclemodel} is further described in \Tableref{tab:vehiclemodel}.
 Since no direct distance measurement can be obtained, two assumptions about the width and length of the target must be used.
@@ -157,7 +158,7 @@ Since no direct distance measurement can be obtained, two assumptions about the 
     \hline
     $(x,y,z)$ & World coordinates of the target's position in the host's coordinate system. \\
     \hline
-    $v$ & Ego velocity of the target. \\
+    $v$ & The velocity of the target, \ie the target's absolute velocity. \\
     \hline
     $\psi$ & Yaw angle of the target compared to the host. \\
     \hline
@@ -183,8 +184,8 @@ By utilizing the properties of the pinhole camera model, the measurement equatio
 %
 \begin{equation}
 \begin{split}
-    p_{\text{HCP, back}} &= -f_x \frac{y + (0,1,0) \rotmat(\psi) (- \alpha l,0,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,0,0)^T} + e_{\text{HCP, back}}\\
-    &= -f_x \frac{y - \alpha l \sin(\psi)}{x - \alpha l \cos(\psi)} + e_{\text{HCP, back}},
+    p_{\text{HCP, back}} &= -f_u \frac{y + (0,1,0) \rotmat(\psi) (- \alpha l,0,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,0,0)^T} + e_{\text{HCP, back}}\\
+    &= -f_u \frac{y - \alpha l \sin(\psi)}{x - \alpha l \cos(\psi)} + e_{\text{HCP, back}},
 \end{split}
 \end{equation}
 %
@@ -197,12 +198,12 @@ where $e_{\text{HCP, back}}$ is the measurement noise and $\rotmat$ is the \spac
 		0 & 0 & 1
 	\end{pmatrix}.
 \end{equation*}
-The measurement is the the number of offset pixels for the horizontal center position, compared to the center of the image in the $u$-direction.
+The measurement is the the number of pixels offset for the horizontal center position, compared to the center of the image in the $u$-direction.
 This is illustrated in \Figureref{fig:roihcp}.
 If instead the front of the target is observed, the factor $\alpha$ is changed to $\alpha-1$ (the point $((1-\alpha)l,0,0)^T$ is observed instead) and the resulting measurement equation is
 %
 \begin{equation}
-    p_{\text{HCP, front}} = -f_x \frac{y - (\alpha - 1) l \sin(\psi)}{x - (\alpha - 1) l \cos(\psi)} + e_{\text{HCP, front}},
+    p_{\text{HCP, front}} = -f_u \frac{y - (\alpha - 1) l \sin(\psi)}{x - (\alpha - 1) l \cos(\psi)} + e_{\text{HCP, front}},
 \end{equation}
 %
 where $e_{\text{HCP, front}}$ is the measurement noise.
@@ -228,7 +229,7 @@ where $e_{\text{HCP, front}}$ is the measurement noise.
         % --- Draw image plane and associated lines---
         \coordinate (camOrigo) at (5.5, -4.5);
         \draw[very thick] (-1,-3) node[anchor=east] {Image plane} -- (8,-3);
-        \draw[->] (6,-4.5) -- (6,-3) node[pos=0.5, anchor=west] {$f_x$};
+        \draw[->] (6,-4.5) -- (6,-3) node[pos=0.5, anchor=west] {$f_u$};
         \draw[->] (6.5,-4.5) -- (6.5,2) node[pos=0.5, anchor=west] {$x$};
         \draw[->] (5.5,2.5) -- (1,2.5) node[pos=0.4, anchor=south] {$y$};
         \draw (camOrigo) node[circle,fill,inner sep=2pt] {} -- (5.5,2) -- (1,2) -- (1.5,0.5) node[circle,fill,inner sep=1pt] {} -- cycle;
@@ -257,14 +258,14 @@ By taking the difference between $i_1$ and $i_2$, the measurement equation becom
 \begin{equation}
 \begin{split}
     p_{\text{Width, back}} = &i_1 - i_2 \\
-    = &f_x \frac{y + (0,1,0) \rotmat(\psi) (- \alpha l,w/2,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,w/2,0)^T} \\
-    &- f_x \frac{y + (0,1,0) \rotmat(\psi) (- \alpha l,-w/2,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,-w/2,0)^T} + e_ {\text{Width, back}} \\
-    = &f_x \frac{y - \alpha l \sin(\psi) + w \cos(\psi) / 2}{x - \alpha l \cos(\psi) - w \sin(\psi) / 2} \\
-    &- f_x \frac{y - \alpha l \sin(\psi) - w \cos(\psi) / 2}{x - \alpha l \cos(\psi) + w \sin(\psi) / 2} + e_ {\text{Width, back}} \\
-    = &f_x \frac{(y - \alpha l \sin(\psi) + w \cos(\psi) / 2)(x - \alpha l \cos(\psi) + w \sin(\psi) / 2)}{(x - \alpha l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} \\
-    &- f_x\frac{(y - \alpha l \sin(\psi) - w \cos(\psi) / 2)(x - \alpha l \cos(\psi) - w \sin(\psi) / 2)}{(x -  \alpha l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} \\
+    = &f_u \frac{y + (0,1,0) \rotmat(\psi) (- \alpha l,w/2,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,w/2,0)^T} \\
+    &- f_u \frac{y + (0,1,0) \rotmat(\psi) (- \alpha l,-w/2,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,-w/2,0)^T} + e_ {\text{Width, back}} \\
+    = &f_u \frac{y - \alpha l \sin(\psi) + w \cos(\psi) / 2}{x - \alpha l \cos(\psi) - w \sin(\psi) / 2} \\
+    &- f_u \frac{y - \alpha l \sin(\psi) - w \cos(\psi) / 2}{x - \alpha l \cos(\psi) + w \sin(\psi) / 2} + e_ {\text{Width, back}} \\
+    = &f_u \frac{(y - \alpha l \sin(\psi) + w \cos(\psi) / 2)(x - \alpha l \cos(\psi) + w \sin(\psi) / 2)}{(x - \alpha l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} \\
+    &- f_u\frac{(y - \alpha l \sin(\psi) - w \cos(\psi) / 2)(x - \alpha l \cos(\psi) - w \sin(\psi) / 2)}{(x -  \alpha l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} \\
     &+ e_ {\text{Width, back}} \\
-    = &-f_x \frac{\alpha l w - y \sin(\psi) w - x \cos(\psi) w}{(x - \alpha l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} + e_ {\text{Width, back}},
+    = &-f_u \frac{\alpha l w - y \sin(\psi) w - x \cos(\psi) w}{(x - \alpha l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} + e_ {\text{Width, back}},
 \end{split}
 \end{equation}
 %
@@ -274,13 +275,13 @@ If instead the front is observed, the factor $\alpha$ becomes $\alpha - 1$ and t
 \begin{equation}
 \begin{split}
     p_{\text{Width, front}} = &i_1 - i_2 \\
-    = &f_x \frac{y + (0,1,0) \rotmat(\psi) ((1-\alpha)l,-w/2,0)^T}{x + (1,0,0) \rotmat(\psi) ((1-\alpha)l,-w/2,0)^T} \\
-    &- f_x\frac{y + (0,1,0) \rotmat(\psi) ((1-\alpha)l,w/2,0)^T}{x + (1,0,0) \rotmat(\psi) ((1-\alpha)l,w/2,0)^T} + e_ {\text{Width, front}} \\
-    = &f_x \frac{(\alpha-1) l w - y \sin(\psi) w - x \cos(\psi) w}{(x - (\alpha-1) l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} + e_ {\text{Width, front}},
+    = &f_u \frac{y + (0,1,0) \rotmat(\psi) ((1-\alpha)l,-w/2,0)^T}{x + (1,0,0) \rotmat(\psi) ((1-\alpha)l,-w/2,0)^T} \\
+    &- f_u\frac{y + (0,1,0) \rotmat(\psi) ((1-\alpha)l,w/2,0)^T}{x + (1,0,0) \rotmat(\psi) ((1-\alpha)l,w/2,0)^T} + e_ {\text{Width, front}} \\
+    = &f_u \frac{(\alpha-1) l w - y \sin(\psi) w - x \cos(\psi) w}{(x - (\alpha-1) l \cos(\psi))^2 - w^2 \sin^2(\psi) / 4} + e_ {\text{Width, front}},
 \end{split}
 \end{equation}
 %
-where $e_ {\text{Width, front}}$ is the measurement noise.
+where $e_{\text{Width, front}}$ is the measurement noise.
 
 % ROI Width
 \begin{figure}[!ht]
@@ -303,7 +304,7 @@ where $e_ {\text{Width, front}}$ is the measurement noise.
         % --- Draw image plane and associated lines---
         \coordinate (camOrigo) at (5.5, -4.5);
         \draw[very thick] (-1,-3) node[anchor=east] {Image plane} -- (7,-3);
-        \draw[->] (6,-4.5) -- (6,-3) node[pos=0.5, anchor=west] {$f_x$};
+        \draw[->] (6,-4.5) -- (6,-3) node[pos=0.5, anchor=west] {$f_u$};
         \draw[->] (6.5,-4.5) -- (6.5,2) node[pos=0.5, anchor=west] {$x$};
         \draw[->] (5.5,2.5) -- (1,2.5) node[pos=0.4, anchor=south] {$y$};
         \draw (camOrigo) node[circle,fill,inner sep=2pt] {} -- (5.5,2) -- (1,2) -- (1.5,0.5) node[circle,fill,inner sep=1pt] {};
@@ -334,18 +335,18 @@ The measurement equation, according to \Figureref{fig:measurementmodelbottom}, t
 %
 \begin{equation}
 \begin{split}
-    p_{\text{Bottom, back}} &= -f_y \frac{z + (0,0,1) \rotmat(\psi) (- \alpha l,0,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,0,0)^T} + e_{\text{Bottom, back}} \\
-    &= -f_y \frac{z}{x - \alpha l \cos(\psi)} + \text{horizon} + e_{\text{Bottom, back}},
+    p_{\text{Bottom, back}} &= -f_v \frac{z + (0,0,1) \rotmat(\psi) (- \alpha l,0,0)^T}{x + (1,0,0) \rotmat(\psi) (- \alpha l,0,0)^T} + e_{\text{Bottom, back}} \\
+    &= -f_v \frac{z}{x - \alpha l \cos(\psi)} + e_{\text{Bottom, back}},
 \end{split}
 \end{equation}
 %
 where $e_{\text{Bottom, back}}$ is the measurement noise.
-The measurement is the number of offset pixels for the bottom position, compared the center of the image in the $v$-direction.
+The measurement is the number of pixels offset for the bottom position, compared the center of the image in the $v$-direction.
 This is illustrated in \Figureref{fig:roibottom}.
 If instead the front of the target is observed, the factor $\alpha$ is changed to $\alpha-1$ and the measurement equation becomes
 %
 \begin{equation}
-    p_{\text{Bottom, front}} =  -f_y \frac{z}{x - (\alpha - 1) l \cos(\psi)} e_{\text{Bottom, front}},
+    p_{\text{Bottom, front}} =  -f_v \frac{z}{x - (\alpha - 1) l \cos(\psi)} e_{\text{Bottom, front}},
 \end{equation}
 where $e_{\text{Bottom, front}}$ is the measurement noise.
 
@@ -362,7 +363,7 @@ where $e_{\text{Bottom, front}}$ is the measurement noise.
         \draw (-3,0.8) -- (3,0.8) -- (3,-1) -- cycle;
         \draw (-0.25,-0.1) -- (0.6,-0.1);
         \draw[->] (0.5,0.8) -- (0.5,-0.1) node[pos=0.5, anchor=west] {$p_{bottom}$};
-        \draw[->] (-3,1.2) -- (0,1.2) node[pos=0.5, anchor=south] {$f_y$};
+        \draw[->] (-3,1.2) -- (0,1.2) node[pos=0.5, anchor=south] {$f_v$};
         \draw[->] (-3,-1.2) -- (3,-1.2) node[pos=0.7, anchor=north] {$x - \alpha l \cos(\psi)$};
         % ---
 
@@ -389,6 +390,7 @@ where $e_{\text{Bottom, front}}$ is the measurement noise.
 \label{sec:angratemeas}
 By selecting feature points inside the \abbrROI, and by using the knowledge of how pairs of feature points have moved between two images, the homography can be estimated.
 The homography can be decomposed into a rotation matrix $\rotmat$, translation vector $\bm{t}$ and a plane normal vector $\bm{n}$.
+Here, the plane normal is the normal of the plane before the homography transformation.
 A brief overview of the decomposition will be presented here.
 More details can be found in \cite{Malis:2007}.
 
@@ -420,7 +422,7 @@ Here, some alternatives are proposed on how to select the final solution.
 \begin{itemize}
     \item Select the solution closest to the current state of the angular rate.
 
-    This will more likely conserve the current state and could fail to detect a sudden change in the angular rate.
+    This will tend to conserve the current state and could fail to detect a sudden change in the angular rate.
 
     \item Select the solution which has the smallest absolute angular rate.
 
@@ -428,16 +430,14 @@ Here, some alternatives are proposed on how to select the final solution.
 
     \item Use both solutions in the filter and later decide which track to drop.
 
-    Use both measurements and run two parallel hypotheses and when one is more likely then the other, discard the false one.
+    Use both measurements and run two parallel hypotheses until one is more likely then the other, and then discard the least likely one.
     This method will however generate an exponential growth of hypotheses.
-    This must be taken in consideration if this particular alternative is selected.
+    This must be taken into consideration if this particular alternative is selected.
 
     \item Perform empirical studies on synthetic data and see if there is a pattern.
 
     By using simulated data, the ground truth and the correct decomposition is known and the selected solution can be verified.
 \end{itemize}
-
-\newpage
 
 \subsection{Corner Measurements}
 In order to get better information about the heading of the target, using measurements from the corners of the target should improve the estimation.
@@ -465,14 +465,14 @@ The equations of the \spacedim{3} positions of the corners are
 By using the pinhole camera model and projecting the \spacedim{3} positions onto the image plane, the resulting measurement equations for the image $u$-coordinates of the corners are
 %
 \begin{align}
-	p^\text{RR}_u &= -f_x \frac{\text{RR}_y^{\text{\spacedim{3}}}}{\text{RR}_x^{\text{\spacedim{3}}}} + e^\text{RR}_u, \\
-	p^\text{RL}_u &= -f_x \frac{\text{RL}_y^{\text{\spacedim{3}}}}{\text{RL}_x^{\text{\spacedim{3}}}} + e^\text{RL}_u, \\
-	p^\text{FR}_u &= -f_x \frac{\text{FR}_y^{\text{\spacedim{3}}}}{\text{FR}_x^{\text{\spacedim{3}}}} + e^\text{FR}_u, \\
-	p^\text{FL}_u &= -f_x \frac{\text{FL}_y^{\text{\spacedim{3}}}}{\text{FL}_x^{\text{\spacedim{3}}}} + e^\text{FL}_u,
+	p^\text{RR}_u &= -f_u \frac{\text{RR}_y^{\text{\spacedim{3}}}}{\text{RR}_x^{\text{\spacedim{3}}}} + e^\text{RR}_u, \\
+	p^\text{RL}_u &= -f_u \frac{\text{RL}_y^{\text{\spacedim{3}}}}{\text{RL}_x^{\text{\spacedim{3}}}} + e^\text{RL}_u, \\
+	p^\text{FR}_u &= -f_u \frac{\text{FR}_y^{\text{\spacedim{3}}}}{\text{FR}_x^{\text{\spacedim{3}}}} + e^\text{FR}_u, \\
+	p^\text{FL}_u &= -f_u \frac{\text{FL}_y^{\text{\spacedim{3}}}}{\text{FL}_x^{\text{\spacedim{3}}}} + e^\text{FL}_u,
 \end{align}
 %
 where $e^\text{RR}_u, e^\text{RL}_u, e^\text{FR}_u$ and $e^\text{FL}_u$ is the measurement noise, respectively.
-The same strategy could also be used to get the $v$-coordinates in the image by interchanging $f_x$ to $f_y$ and $\text{RR}_y^\text{\spacedim{3}}$ to $\text{RR}_z^\text{\spacedim{3}}$ etc.
+The same strategy could also be used to get the $v$-coordinates in the image by interchanging $f_u$ to $f_v$ and $\text{RR}_y^\text{\spacedim{3}}$ to $\text{RR}_z^\text{\spacedim{3}}$ etc.
 
 \begin{figure}[!ht]
     \centering

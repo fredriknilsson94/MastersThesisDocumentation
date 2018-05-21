@@ -8,7 +8,7 @@ The camera system is used to detect and input measurements to a filter which pro
 When using a camera system, it is necessary to use different coordinate systems in order to separate the image information from world information.
 
 \section{General Target Tracking}
-The main objective of target tracking is to estimate the states of a target, given some measurements or observations from, possibly, different sensors.
+The main objective of target tracking is to estimate the states of a target, given measurements or observations from one or more sensors.
 A target can be any object for which we are interested in estimating \eg the position, velocity, acceleration, orientation etc.
 A \textit{track} is a confirmed target, \ie a target that has been associated with a number of measurements under a certain time.
 When performing target tracking, one can be interested in tracking just a single object or tracking multiple objects at the same time.
@@ -103,7 +103,7 @@ The concept exists both as sparse optical flow, \ie the optical flow for a certa
 The goal of vehicle tracking is to predict and estimate \eg the position and velocity of the targets.
 Many of the general object tracking aspects play an important role in vehicle tracking, \eg measurements, data association and \abbrMTT.
 When tracking vehicles in a mono camera system, some alternatives are possible on how to select the states.
-One can either track the vehicle in the image frame using image coordinates for position and velocity, or track in \spacedim{3} world coordinates and thus use meter and meters per seconds as units.
+One can either track the vehicle in the image frame using image coordinates for position and velocity, or track in \spacedim{3} world coordinates and thus use meter and meter per second as units.
 Since no depth information can be obtained from just a mono camera, some additional assumptions or other methods must be used if it is desired to track the target in \spacedim{3} world coordinates.
 
 One of the main purposes of vehicle tracking is to maintain a state estimate of a vehicle even if it is not detected in a certain frame.
@@ -113,7 +113,7 @@ The tracking can \eg be performed with a filter of Kalman filter \cite{Sivaraman
 \label{sec:relatedresearch}
 There exist several successful attempts of estimating the \spacedim{3} pose of objects using a mono camera system.
 The problem of estimating the heading (including both the orientation and angular rate) of a vehicle can be seen as a special case of a full \spacedim{3} pose estimation problem.
-A vehicle does not have the same degrees of freedom since it has limited rotation freedom.
+A vehicle does not have the same degrees of freedom since it has limited rotational freedom.
 \Figureref{fig:vehiclerotation} shows the rotation of interest, \ie the rotation around the axis which is perpendicular to the vehicle's ground plane.
 Some different approaches found in the literature will be mentioned here.
 
@@ -168,10 +168,10 @@ The Kanade-Lucas-Tomasi (\abbrKLT) feature tracker, \eg \cite{Szeliski:2011}, we
 The constructed measurement was used together with an \abbrEKF to obtain the state estimates.
 
 In \cite{Mondragon:2010}, the homography concept is used in a somewhat similar manner.
-Here, the yaw angle of an unmanned aerial vehicle (\abbrUAV) is estimated by estimating the homographies over time.
+Here, the yaw angle of an unmanned aerial vehicle (\abbrUAV) is estimated by calculating the homographies over time.
 A helipad is placed on the ground as a reference plane onto which the homography is estimated.
-Two flight tests where presented, and the resulting root-mean-square error (\abbrRMSE) of the yaw angle were $2.5^\circ$ and $4.9^\circ$, respectively.
-A IMU where used as ground truth data.
+Two flight tests were presented, and the resulting root-mean-square error (\abbrRMSE) of the yaw angle were $2.5^\circ$ and $4.9^\circ$, respectively.
+A IMU were used as ground truth data.
 
 \section{Coordinate Systems}
 To describe tracking targets from a host, referring to the host as the ego car in which the camera system is located, some terminology about different coordinate systems is necessary.

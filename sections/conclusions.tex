@@ -13,7 +13,7 @@ It captures the shape of the target in a good way and the rotation is easily def
 The model is also suitable for measurements of the target vehicle's corners.
 Although no other models have been tested in this thesis, the rectangle model seems like an eminent model choice.
 
-The results with real-world data where not as satisfying as the best simulated results.
+The results with real-world data were not as satisfying as the best simulated results.
 Due to the high variance of the constructed angular rate measurements, the same gratifying results achieved through simulations could not be obtained with real-word data.
 By adding the target vehicle's corners as measurements, the state estimates could further be improved in the case of a turning target.
 
@@ -34,11 +34,11 @@ By recalling the objective of this thesis including the questions that where sta
 
     From the results in this thesis, the mono camera system can not quite catch up with the performance of a stereo camera system.
     The result could be improved by
-	\begin{enumerate*}[label=\roman*)]
-		\item increasing the number of feature points or improve the feature point correspondence between two frames
-		\item further investigate the homography estimation method
+	\begin{enumerate}[label=\roman*)]
+		\item increasing the number of feature points or improve the feature point correspondence between two frames,
+		\item further investigate the homography estimation method,
 		\item constructing a method which can generate measurements of the corners.
-	\end{enumerate*}
+	\end{enumerate}
 	If these improvements are implemented, then the mono camera system can have a reasonable chance of competing in performance with a stereo camera system.
 \end{itemize}
 
@@ -58,7 +58,7 @@ A vehicle can (in normal cases) only rotate in one of the three dimensions.
 \subsection{Feature Point Correspondence}
 Testing another method for the feature point detection, description, matching and tracking might also be a strategy to try improve the homography estimation.
 Since the quality of the estimated yaw rate from the homograpy did not match the quality of the estimated yaw rate in \cite{Gabb:2013}, improving the KLT feature point tracker could be one way forward.
-The feature point detection could also be be future analysed.
+The feature point detection could also be analysed future.
 As discussed in \Sectionref{sec:homographyestimationresults}, the quality and spatial location of the detected feature points has an important role for the homography estimation.
 One thing to have in mind is that in this thesis the feature point tracker where implemented in \matlab.
 If it should run in a mono camera system, different aspects on the computation complexity might have to be taken into consideration.

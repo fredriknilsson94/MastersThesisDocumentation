@@ -6,7 +6,7 @@ The main idea is to compute how the front (or the back) of the target has moved 
 From the homography, the relative rotation, \ie the angular rate, can be extracted and used as a measurement.
 By combining the new angular rate measurement and \abbrROI measurements from machine learning algorithms, together with a suitable vehicle and motion model, the system can be implemented in \matlab and evaluated against results from a stereo camera system.
 
-The chapter describes the motion model used to predict the motion of the target, the measurement model for both the image detections and angular rate and how all are fused together in an \abbrEKF.
+The chapter describes the motion model used to predict the motion of the target, the measurement model for both the image detections and angular rate and how all measurements are fused together in an \abbrEKF.
 It also describes how to, if they were accessible, incorporate measurements of the target vehicle's corners into the model.
 
 \section{Vehicle Motion Model}
@@ -171,7 +171,7 @@ Since no direct distance measurement can be obtained, two assumptions about the 
     \end{tabular}
 \end{table}
 
-By using the detection methods describes in \Sectionref{sec:objectdetection}, image measurement models can be derived.
+By using the detection methods described in \Sectionref{sec:objectdetection}, image measurement models can be derived.
 
 \newpage
 
@@ -448,7 +448,7 @@ They can be projected in both the image $u$-direction and $v$-direction.
 
 These kinds of measurements in world coordinates can easily be obtained with a stereo camera system, since it has access to depth information from the disparity image.
 The purpose of introducing these measurements into the mono camera system, is to show what performance could be expected if these kinds of measurements would be available there as well.
-Although, the measurements would be in image coordinates rather then in world coordinates.
+Although, the measurements would be in image coordinates rather than in world coordinates.
 
 The equations of the \spacedim{3} positions of the corners are
 %

@@ -20,8 +20,8 @@ Vision safety systems are typically constructed with either one or two cameras, 
 One of the great advantages from using a stereo camera system, instead of a mono camera system, is the ability to gain depth information from the disparity mapping \citep{Sivaraman:2013}.
 This is exactly the same ability as the human eyes have when we observe the world, \ie reconstruction of \spacedim{3} images.
 This significantly improves the ability to get information about how vehicles are \eg oriented.
-One benefit of knowing how vehicles are oriented, and how they are rotating, is that more information can be used when predicting the future path of the objects.
-Especially, since \eg a car has constraints that limits its movements, knowing the orientation and rotation can give large benefits.
+One benefit of knowing how vehicles are oriented, and how they are rotating, is that more information can be used when predicting the future path of the vehicles.
+Especially, since \eg a vehicle has constraints that limits its movements, knowing the orientation and angular rate can give large benefits.
 
 The lack of distance information is a challenge that must be handled when developing a mono camera system.
 It is however not impossible to gain some depth information from mono camera systems.
@@ -34,7 +34,7 @@ Stereo cameras seem like the obvious choice.
 However, they are more expensive since more hardware is used.
 For a car that is already expensive, this might not be a problem.
 Although, in order to improve the overall traffic situation more cars must use a driving assistance system.
-The fact is that more than 90 \% of all accidents on the road are caused by the human factor \cite{EuroNCAP:2017}!
+The fact is that more than 90 \% of all accidents on the road are caused by the human error \cite{EuroNCAP:2017}!
 The cheaper mono camera system is a competitive alternative to use in order to equip more cars with \abbrADAS.
 In order for the mono camera system to be a reasonable substitute for the stereo camera system, functionality that exists in a stereo camera system must also be a feature in the mono camera system.
 Thus, in order to make vision systems more available for all car manufactures and all car models, further development of the mono camera systems is necessary.
@@ -52,7 +52,7 @@ The objective can be formulated into several questions:
 
 	\item What kind of algorithms and models are suitable for solving the problem?
 
-	\item How well do the estimations from a mono camera system perform compared to those from a stereo camera system?
+	\item How well do the estimates from a mono camera system perform compared to those from a stereo camera system?
 \end{itemize}
 
 \section{Limitations}
@@ -61,7 +61,7 @@ In order to make the thesis feasible, some limitations must be accepted. They ar
 \begin{itemize}	
 	\item The heading estimation algorithm will only be evaluated on cars.
 
-	If the rotation is successfully estimated on a car, generalizations to \eg buses and trucks should not be that complicated.
+	If the rotation is successfully estimated on a car, generalizations to other vehicles, \eg buses and trucks should not be that complicated.
 
 	\item The size of the tracked car is assumed to be known.
 
@@ -70,10 +70,10 @@ In order to make the thesis feasible, some limitations must be accepted. They ar
 
 	\item The algorithm is not required to work in real-time.
 
-	Since it is initially unknown if it is possible to estimate the heading of objects in a mono camera system, the focus is on proof-of-concept and not on real-time performance.
+	Since it is initially unknown if it is possible to estimate the heading of vehicles in a mono camera system, the focus is on proof-of-concept and not on real-time performance.
 	However, the real-time aspect should be kept in mind when designing the algorithm.
 
-    \item The tracking algorithm does not have to be able to complete all necessary steps automatically.
+    \item The tracking algorithm does not has to be able to complete all necessary steps automatically.
 
     The algorithm can \eg be informed if the host car is observing the front or rear of the target car.
 

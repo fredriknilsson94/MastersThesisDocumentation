@@ -82,7 +82,7 @@ The angular rate $\omega$ is also assumed to be constant and the yaw angle $\psi
     \caption{\label{fig:motionmodel} The notation in the motion model related to the target vehicle.}
 \end{figure}
 
-Note that if the host is moving while tracking the target, at each sample, \ie frame, the state of the target must be compensated with respect to the host's ego motion.
+If the host is moving while tracking the target, at each sample, \ie frame, the state of the target must be compensated with respect to the host's ego motion.
 It has been omitted from \eqref{eq:motionmodel} in order to simplify the expressions and as mentioned in \Chapterref{cha:intro}, the thesis deals only with host cars with no ego motion.
 A generalized formulation of the compensation is
 %
@@ -90,7 +90,7 @@ A generalized formulation of the compensation is
 	\bm{x}_{k+1} = \bm{f}_{\text{Motion}}\left( \bm{f}_{\text{Ego}}(\bm{x}_k) \right),
 \end{equation}
 %
-where $\bm{f}_{\text{Ego}}$ is the function which compensates for the host's ego motion and $\bm{f}_{\text{Motion}}$ is the motion model \eqref{eq:motionmodel}.
+where $\bm{f}_{\text{Ego}}$ is the function which compensates for the host's ego motion and $\bm{f}_{\text{Motion}}$ is the motion model in \eqref{eq:motionmodel}.
 %
 \begin{table}[!ht]
 \centering
@@ -178,7 +178,7 @@ By using the detection methods described in \Sectionref{sec:objectdetection}, im
 \subsection{ROI Horizontal Center Position Measurement}
 
 First, we have the measurement of the horizontal center position of the \abbrROI.
-In \Figureref{fig:measurementmodelhcp} a geometric view of the measurement is presented.
+In \Figureref{fig:measurementmodelhcp}, a geometric view of the measurement is presented.
 The observation is the middle of the back, or the front, of the target.
 By utilizing the properties of the pinhole camera model, the measurement equation is
 %
@@ -213,7 +213,7 @@ where $e_{\text{HCP, front}}$ is the measurement noise.
     \centering
     \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
         % --- Draw rectangle car ---
-        \draw (0,0) node[circle,fill,inner sep=1pt] {} -- (3,1) node[circle,fill,inner sep=1pt] {} -- (1.5,5.5) -- (-1.5,4.5) -- cycle;
+        \draw (0,0) -- (3,1) -- (1.5,5.5) -- (-1.5,4.5) -- cycle;
         \draw[dashed] (-0.5,1.5) -- (2.5,2.5);
         \draw[->] (1,2) node[circle,fill,inner sep=1pt] {} -- (0.3,4) node[anchor=south] {$v$};
         \draw[dotted] (1,2) -- (1,4);
@@ -307,7 +307,7 @@ where $e_{\text{Width, front}}$ is the measurement noise.
         \draw[->] (6,-4.5) -- (6,-3) node[pos=0.5, anchor=west] {$f_u$};
         \draw[->] (6.5,-4.5) -- (6.5,2) node[pos=0.5, anchor=west] {$x$};
         \draw[->] (5.5,2.5) -- (1,2.5) node[pos=0.4, anchor=south] {$y$};
-        \draw (camOrigo) node[circle,fill,inner sep=2pt] {} -- (5.5,2) -- (1,2) -- (1.5,0.5) node[circle,fill,inner sep=1pt] {};
+        \draw (camOrigo) node[circle,fill,inner sep=2pt] {} -- (5.5,2) -- (1,2);
         \draw (camOrigo) -- (0,0) (camOrigo) -- (3,1);
         \draw (3.65,-2.8) node[anchor=south] {$i_1$} -- (3.65,-3.6);
         \draw (4.8,-2.8) node[anchor=south] {$i_2$} -- (4.8,-3.6);
@@ -388,7 +388,7 @@ where $e_{\text{Bottom, front}}$ is the measurement noise.
 
 \subsection{Angular Rate Measurements}
 \label{sec:angratemeas}
-By selecting feature points inside the lower half of the \abbrROI, and by using the knowledge of how pairs of feature points have moved between two images, the homography can be estimated.
+By selecting feature points inside the lower half of the \abbrROI, and by using the knowledge about how pairs of feature points have moved between two images, the homography can be estimated.
 The lower half of the \abbrROI was selected in order to get feature points lying on a planar surface.
 The homography can be decomposed into a rotation matrix $\rotmat$, translation vector $\bm{t}$ and a plane normal vector $\bm{n}$.
 Here, the plane normal is the normal of the plane before the homography transformation.
@@ -401,9 +401,9 @@ The homography matrix $\bm{H}$ can be decomposed as
     \bm{H} = \rotmat + \bm{t} \bm{n}^T.
 \end{equation}
 %
-The rotation matrix $\rotmat$ describes how the estimated plane has rotated between two images.
+The rotation matrix $\rotmat$ describes how the plane has rotated between two images.
 Since the rotation is relative to the previous image, no absolute angle can be measured.
-Instead, the rotation can be used to create the angular rate since the time between two images is assumed to be known, \ie the cameras frame rate.
+Instead, the rotation can be used to create the angular rate since the time between two images is assumed to be known, \ie the camera's frame rate.
 By extracting the Euler angles from the rotation matrix, the angular rate can be calculated and used as a measurement.
 The measurement equation simply becomes
 %
@@ -446,8 +446,8 @@ The available corners for measurements can be seen in \Figureref{fig:measurement
 The measurement equations can be constructed by writing the \spacedim{3} coordinates of each of the four corners and then project them onto the image plane.
 They can be projected in both the image $u$-direction and $v$-direction.
 
-These kinds of measurements in world coordinates can easily be obtained with a stereo camera system, since it has access to depth information from the disparity image.
-The purpose of introducing these measurements into the mono camera system, is to show what performance could be expected if these kinds of measurements would be available there as well.
+These types of measurements in world coordinates can easily be obtained with a stereo camera system, since it has access to depth information from the disparity image.
+The purpose of introducing these measurements into the mono camera system, is to show what performance could be expected if these types of measurements would be available there as well.
 Although, the measurements would be in image coordinates rather than in world coordinates.
 
 The equations of the \spacedim{3} positions of the corners are
@@ -463,7 +463,7 @@ The equations of the \spacedim{3} positions of the corners are
 	\left( x,  y, z \right)^T + \rotmat(\psi) \; \big( (1-\alpha)l, \, w/2, \, 0 \big)^T.
 \end{align}
 %
-By using the pinhole camera model and projecting the \spacedim{3} positions onto the image plane, the resulting measurement equations for the image $u$-coordinates of the corners are
+By using the pinhole camera model and projecting the \spacedim{3} positions onto the image plane, the resulting measurement equations for the image $u$-coordinate of the corners are
 %
 \begin{align}
 	p^\text{RR}_u &= -f_u \frac{\text{RR}_y^{\text{\spacedim{3}}}}{\text{RR}_x^{\text{\spacedim{3}}}} + e^\text{RR}_u, \\
@@ -494,6 +494,8 @@ The same strategy could also be used to get the $v$-coordinates in the image by 
     \end{tikzpicture}
     \caption{\label{fig:measurementmodelcorners} Measurement model of the corners available to measure on the target.}
 \end{figure}
+
+\hfill
 
 \begin{figure}[!ht]
 	\centering

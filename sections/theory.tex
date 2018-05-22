@@ -78,7 +78,7 @@ Before an object can be tracked by the vision system, it has to be detected in t
 
 \subsection{Vehicle Detection in Mono Camera Systems}
 \label{sec:objectdetection}
-Two examples of approaches to object detection are appearance-based and motion-based methods \citep{Sivaraman:2013}.
+Two examples of approaches to vehicle detection are appearance-based and motion-based methods \citep{Sivaraman:2013}.
 
 \paragraph{Appearance-based methods:}
 Appearance-based methods use techniques to directly detect a vehicle in the image frame.
@@ -146,7 +146,7 @@ Some different approaches found in the literature will be mentioned here.
 		\draw[very thick,red,->,>=stealth,rotate around={45:(1.5,3.5,3)}] (1.5,3.5,3) arc (0:300:0.8cm and 0.4cm);
 		%\draw[thick,dashed,red,rotate around={-35:(1,3,3)}] (1,3,3) circle (0.5cm and 0.75cm);
 	\end{tikzpicture}
-	\caption{\label{fig:vehiclerotation} An illustration of which axis rotation that are of interest to estimate for a vehicle.}
+	\caption{\label{fig:vehiclerotation} An illustration of which axis rotation that is of interest to estimate for a vehicle.}
 \end{figure}
 
 One straightforward way of estimating the \spacedim{3} pose of an object is to track a number of feature points over time and let an extended Kalman filter (\abbrEKF) estimate the rotation and translation parameters \cite{Hajimolahoseini:2014}.
@@ -171,7 +171,7 @@ In \cite{Mondragon:2010}, the homography concept is used in a somewhat similar m
 Here, the yaw angle of an unmanned aerial vehicle (\abbrUAV) is estimated by calculating the homographies over time.
 A helipad is placed on the ground as a reference plane onto which the homography is estimated.
 Two flight tests were presented, and the resulting root-mean-square error (\abbrRMSE) of the yaw angle were $2.5^\circ$ and $4.9^\circ$, respectively.
-A IMU were used as ground truth data.
+A IMU was used as ground truth data.
 
 \section{Coordinate Systems}
 To describe tracking targets from a host, referring to the host as the ego car in which the camera system is located, some terminology about different coordinate systems is necessary.
@@ -179,8 +179,16 @@ First, we have the difference between a world coordinate system  and an image co
 A world coordinate system is a coordinate system in \spacedim{3} representing how objects are positioned in the world.
 An image coordinate system is the \spacedim{3} world coordinates projected onto a \spacedim{2} image plane.
 
+\vspace{1em}
+
 The image coordinate system is defined in \Figureref{fig:imagecoordsystem}.
 It is used to \eg express measurements from a mono camera system.
+
+Two world coordinate systems are defined and used in this thesis: the target's coordinate system and the host's coordinate system.
+The states of the tracked target will be expressed in both the host's world coordinate system and the target's world coordinate system.
+They are defined in \Figuresref{fig:hostcoordsystem} and \ref{fig:targetcoordsystem}, respectively.
+
+\vspace{4em}
 
 \begin{figure}[!ht]
 	\centering
@@ -193,9 +201,7 @@ It is used to \eg express measurements from a mono camera system.
 	\caption{\label{fig:imagecoordsystem} The definition of the image coordinate system. The origin is located in the upper left corner.}
 \end{figure}
 
-Two world coordinate systems are defined and used in this thesis: the target's coordinate system and the host's coordinate system.
-The states of the tracked target will be expressed in both the host's world coordinate system and the target's world coordinate system.
-They are defined in \Figuresref{fig:hostcoordsystem} and \ref{fig:targetcoordsystem}, respectively.
+\vfill
 
 \begin{figure}[!ht]
     \centering
@@ -221,7 +227,7 @@ They are defined in \Figuresref{fig:hostcoordsystem} and \ref{fig:targetcoordsys
 \begin{figure}[!ht]
     \centering
     \hspace*{2cm}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
 		\node [draw,circle,inner sep=3pt] (origo) at (0,-1) {};
 		\draw (-1.5,-2) rectangle (1.5,2);
 		\draw[dashed] (-1.5,-1) -- (1.5,-1) node[pos=0.5,circle,fill,inner sep=1pt] {};
@@ -232,23 +238,28 @@ They are defined in \Figuresref{fig:hostcoordsystem} and \ref{fig:targetcoordsys
     \caption{\label{fig:targetcoordsystem} The definition of the target's coordinate system. The coordinate system is placed at the center of the rear axis of the target. The $x$-direction points in the same direction as the target itself, the $y$-direction  points to the left when looking in the target's direction and the $z$-direction points upwards.}
 \end{figure}
 
+\newpage
+
 \section{The Pinhole Camera Model}
 One basic camera model is the pinhole camera model \cite{Hartley:2004}.
 It describes how a point in world coordinates projects onto the image coordinate system.
 \Figureref{fig:pinholecameraex} illustrates how a point $(x, y, z)^T$ is mapped onto the image plane.
 If the camera has the focal lengths $f_u$ and $f_v$, and by identifying similar triangles, the resulting mapping from \spacedim{3} to \spacedim{2} is
-\begin{equation*}
+\begin{subequations}
+\begin{equation}
     (x, y, z)^T \mapsto \left(f_u\frac{y}{x}, f_v\frac{z}{x}\right)^T,
-\end{equation*}
+\end{equation}
 \ie
-\begin{equation*}
+\begin{equation}
     (u, v)^T \mapsto \left(f_u\frac{y}{x}, f_v\frac{z}{x}\right)^T.
-\end{equation*}
+\end{equation}
+\end{subequations}
 
 \begin{figure}[!ht]
 	\centering
 	\begin{tikzpicture}
-		[axis/.style={thick,black,->},
+		[scale=0.9, every node/.style={scale=0.9},
+		axis/.style={thick,black,->},
 		 cross/.style={path picture={
 			\draw[black]
 			(path picture bounding box.south east) -- (path picture bounding box.north west) (path picture bounding box.south west) -- 			(path picture bounding box.north east);}}]
@@ -272,7 +283,7 @@ If the camera has the focal lengths $f_u$ and $f_v$, and by identifying similar 
 		% Projected size in image
 		\draw[->] (2.25,0) -- (2.25, 1) node[pos=0.5,anchor=west] {$f_v \frac{z}{x}$};
 	\end{tikzpicture}
-	\caption{\label{fig:pinholecameraex} A world coordinate $(x, y, z)^T$ is projected on the image plane. The figure shows the similar triangles for the projection in the $v$-direction.}
+	\caption{\label{fig:pinholecameraex} A world coordinate $(x, y, z)^T$ is projected onto the image plane. The figure shows the similar triangles for the projection in the $v$-direction.}
 \end{figure}
 
 \section{Homography}
@@ -319,7 +330,7 @@ This is the idea used in \cite{Gabb:2013} to estimate the angular rate of vehicl
 
 The problem of estimating how a plane in \spacedim{3}, given a set of image coordinates $\bm{x}_i \in \mathbb{P}^2$ and a corresponding set of image coordinates $\bm{x}^\prime_i \in \mathbb{P}^2$, has moved (translated and rotated) between two frames is equivalent to finding the homography $\bm{H}$ for the two correspondence set of homogeneous image coordinates $\bm{x} = (u_i, v_i, 1)^T$ and $\bm{x}^\prime = (u^\prime_i, v^\prime_i, 1)^T$.
 The interpretation of corresponding points is a point before and the same point after the homography transformation.
-There exist several methods for finding the homography from the correspondence points.
+There exist several methods for finding the homography from the corresponding points.
 
 \subsection{Direct Linear Transform}
 The homography matrix, $\bm{H}$, can be estimated given a set of $N$ image coordinates, $\bm{x}_i = (u_i, v_i, 1)^T$, and the correspondence set of $N$ image coordinates, $\bm{x}^\prime_i = (u^\prime_i, v^\prime_i, 1)^T$, in another frame.
@@ -330,7 +341,9 @@ By rewriting \eqref{eq:homographyequality}, and by substituting the third row, $
 	\label{eq:geoerrorhomography}
 	\bm{A} \bm{h} = \bm{0}
 \end{equation}
-%
+
+\vspace{1em}
+
 is obtained and is referred to as a direct linear transformation (\abbrDLT), \eg \cite{Hartley:2004} and \cite{Nordberg:2015}, where $\bm{A}$ is a $2 N \times 9$ matrix and $\bm{h}$ is a $9 \times 1$ vector,
 %
 \begin{equation}
@@ -433,14 +446,14 @@ They are:
 
 \section{Extended Kalman Filtering}
 Kalman filtering \cite{Gustafsson:2012} is one filtering method used to track a target.
-If the target is moving according to some motion model, $\bm{f}(\bm{x}_k,\bm{u}_k,\bm{v}_k)$, and measurements are generated according to some measurement model, \\ $\bm{h}(\bm{x}_k,\bm{u}_k,\bm{e}_k)$, the system is described by
+If the target is moving according to some motion model, $\bm{f}(\bm{x}_k,\bm{u}_k,\bm{v}_k)$, and measurements are generated according to some measurement model, $\bm{h}(\bm{x}_k,\bm{u}_k,\bm{e}_k)$, the system is described by
 \begin{align}
 \begin{split}
 	\bm{x}_{k+1} &= \bm{f}(\bm{x}_k,\bm{u}_k,\bm{v}_k), \\
 	\bm{y}_k &= \bm{h}(\bm{x}_k,\bm{u}_k,\bm{e}_k).
 \end{split}
 \end{align}
-Here, $\bm{x}_k$ is the state of the target, $\bm{u}_k$ is a input or control signal to the system, $\bm{v}_k$ is the process noise and $\bm{e}_k$ is the measurement noise.
+Here, $\bm{x}_k$ is the state of the target, $\bm{u}_k$ is an input or control signal to the system, $\bm{v}_k$ is the process noise and $\bm{e}_k$ is the measurement noise.
 The process and measurement noise are assumed to be Gaussian with zero mean and covariance matrices denoted $\bm{Q}$ and $\bm{R}$, respectively.
 The motion and measurement models used in this thesis are nonlinear, thus the \abbrEKF can be applied.
 The algorithm to perform \abbrEKF filtering can be found in \cite{Gustafsson:2012} and is recapitulated in \Algorithmref{algo:ekf}.

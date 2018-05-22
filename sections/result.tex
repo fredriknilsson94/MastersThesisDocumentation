@@ -8,7 +8,7 @@ Since the filter depends on the quality of the constructed angular rate measurem
 
 To see how the filter perform compared to a stereo camera system, two sequence were recorded and the output has been compared with the output from the filter constructed in this thesis.
 
-\section{Observability Along Different Trajectories}
+\section{Observability along Different Trajectories}
 \label{sec:observabilityresult}
 In order to see if the filter structure is reasonably formulated, \ie if the target modelling and the measurement setups have been suitably chosen, an observability analysis according to \Sectionref{sec:observabilitymethod} has been performed and summarized in \Tableref{tab:observabilityresult}.
 The results show that the filter is formulated such that a trajectory with a moving target seems to be observable.
@@ -299,7 +299,7 @@ By observing the result from the homography estimation with synthetic data, seve
 \begin{itemize}
 	\item If the matching pixels do not match well enough, \ie the errors in matched pixel coordinates are too large, the quality of the estimated homography will be reduced.
 	\item At a distance further away, the mismatching pixels will have an even larger effect on the homography estimation.
-	\item If the target is far away, not even a small mismatch error might be good enough for estimating the homography, since the movement of the feature points is so small.
+	\item If the target is far away, not even a small mismatch error might be good enough for estimating the homography, since the true movement of the feature points is small.
 \end{itemize}
 
 The same method was used when constructing the angular rate measurements from real-world data.
@@ -378,7 +378,7 @@ It might be that this method is not the correct way of selecting the final solut
 \section{Comparison with a Stereo Camera System}
 One of the goals with this \ms was to evaluate the performance of the mono tracker constructed in this thesis with a stereo system.
 For this purpose, real-world data were collected with a stereo camera system to use as ground truth.
-The two sequences, which a comparison has been performed with, are shown in \Figureref{fig:sequence155532} and \Figureref{fig:sequence155733}.
+The two sequences, which a comparison has been performed with, are shown in \Figuresref{fig:sequence155532} and \ref{fig:sequence155733}.
 The first sequence contains a target which travels straight forward and the second sequence contains a target which makes a turn to the right.
 
 The resulting state comparisons are presented in \Figuresref{fig:comparison155532} and \ref{fig:comparison155733}.

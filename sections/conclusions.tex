@@ -14,12 +14,12 @@ The model is also suitable for measurements of the target vehicle's corners.
 Although no other models have been tested in this thesis, the rectangle model seems like an eminent model choice.
 
 The results with real-world data were not as satisfying as the best simulated results.
-Due to the high variance of the constructed angular rate measurements, the same gratifying results achieved through simulations could not be obtained with real-word data.
+Due to the high variance of the constructed angular rate measurements, the same gratifying results achieved through simulations could not be obtained with real-world data.
 By adding the target vehicle's corners as measurements, the state estimates could further be improved in the case of a turning target.
 
 \newpage
 
-By recalling the objective of this thesis including the questions that where stated in \Chapterref{cha:intro}, answers can now be provided in order to finalize the thesis.
+By recalling the objective of this thesis including the questions that were stated in \Chapterref{cha:intro}, answers can now be provided in order to finalize the thesis.
 
 \begin{itemize}
     \item Can the heading of a vehicle be estimated using a mono camera system?
@@ -30,7 +30,7 @@ By recalling the objective of this thesis including the questions that where sta
 
     By modelling the target vehicle as a rectangle and using the proposed measurements, a suitable algorithm has been constructed in order to solve the heading estimation problem.
 
-    \item How well do the estimates from a mono camera system perform compared to those from a stereo camera system?
+    \item How well does the estimates from a mono camera system perform compared to those from a stereo camera system?
 
     From the results in this thesis, the mono camera system can not quite catch up with the performance of a stereo camera system.
     The result could be improved by
@@ -44,7 +44,7 @@ By recalling the objective of this thesis including the questions that where sta
 
 \section{Suggestions for Future Work}
 There are several things which could be improved in the future.
-Right now, the mono camera system are still lacking behind in the capability of estimating the heading of vehicles, compared to a stereo camera system.
+Right now, the mono camera system is still lacking behind in the capability of estimating the heading of vehicles, compared to a stereo camera system.
 By looking at the thesis limitations, several tasks for future work can be stated.
 However, a couple of more interesting future tasks are mentioned here.
 
@@ -58,10 +58,10 @@ A vehicle can (in normal cases) only rotate in one of the three dimensions.
 \subsection{Feature Point Correspondence}
 Testing another method for the feature point detection, description, matching and tracking might also be a strategy to try improve the homography estimation.
 Since the quality of the estimated yaw rate from the homograpy did not match the quality of the estimated yaw rate in \cite{Gabb:2013}, improving the KLT feature point tracker could be one way forward.
-The feature point detection could also be analysed future.
+The feature point detection could also be analysed further.
 As discussed in \Sectionref{sec:homographyestimationresults}, the quality and spatial location of the detected feature points have an important role for the homography estimation.
 One thing to have in mind is that in this thesis the feature point tracker where implemented in \matlab.
-If it should run in a mono camera system, different aspects on the computation complexity might have to be taken into consideration.
+If it should run in a mono camera system, different aspects of the computation complexity might have to be taken into consideration.
 
 \subsection{Corner Measurements}
 This thesis has shown that corner measurements could improve the heading estimation in a mono camera system.

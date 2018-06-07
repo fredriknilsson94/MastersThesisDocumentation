@@ -6,7 +6,7 @@ If the filter structure, including the target modelling and measurement setups, 
 Monte Carlo simulations were then used to obtain some statistical properties, and a theoretical performance analysis, without having to calculate it analytically.
 Since the filter depends on the quality of the constructed angular rate measurements, the selected homography estimation method has been evaluated through simulations.
 
-To see how the filter perform compared to a stereo camera system, two sequence were recorded and the output has been compared with the output from the filter constructed in this thesis.
+To see how the filter perform compared to a stereo camera system, two sequences were recorded and the output has been compared with the output from the filter constructed in this thesis.
 
 \section{Observability along Different Trajectories}
 \label{sec:observabilityresult}
@@ -37,7 +37,7 @@ It is not observable if only \abbrROI and angular rate measurements are availabl
 	\end{tabular}
 \end{table}
 
-A intuitive explanation to why that particular situation is not observable is that, if the target has no ego motion and only \abbrROI and angular rate are used as measurements, the same \abbrROI measurements could be observed from several different target state vectors.
+An intuitive explanation to why that particular situation is not observable is that, if the target has no ego motion and only \abbrROI and angular rate are used as measurements, the same \abbrROI measurements could be observed from several different target state vectors.
 For example could the same \abbrROI appear if the target is rotated either $\pm\psi$ and the $(x,y,z)^T$ position is adjusted accordingly.
 The \abbrROI will appear the same in the image plane.
 
@@ -268,7 +268,7 @@ As well as in the previous simulation, the result got significantly improved by 
 
 \newpage
 
-The purpose of performing Monte Carlo simulations were to show which performance, \ie measurement noise level, that must be achieved in order to produce a good state estimated with the proposed filter structure.
+The purpose of performing Monte Carlo simulations was to show which performance, \ie measurement noise level, that must be achieved in order to produce a good state estimated with the proposed filter structure.
 This was especially interesting for the angular rate measurements.
 From the two simulated scenarios, the results have shown that a measurement variance of 0.1 rad/s for the angular rate should be good enough.
 A measurement noise variance of 0.5 rad/s is too large in order to obtain a good state estimate.
@@ -313,7 +313,7 @@ Another explanation might be that the OpenCV implementation for finding and deco
 
 By further analysing the angular rate measurements from \Figureref{fig:angvelmeas}, their respectively variances could be calculated.
 For the first sequence, a linear trend was subtracted from the measurements and the resulting variance was 0.8 rad/s.
-For the seconds sequence, a nonlinear trend was subtracted from the measurements and the resulting variance was 2 rad/s.
+For the second sequence, a nonlinear trend was subtracted from the measurements and the resulting variance was 2 rad/s.
 These variances are too high compared to the required variance discussed in the previous section.
 The evaluated sequences were recorded in clear daylight.
 It is reasonable to believe that the feature points will be even more difficult to track in bad light or in bad weather conditions.

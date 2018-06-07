@@ -6,11 +6,11 @@ A camera system consisting of a single camera is cheaper than a system of two ca
 
 \section{Background}
 Today, autonomous driving and driver assistance systems is a popular area of research and development.
-Especially, since it has the ability to make driving more safe. 
+Especially since it has the ability to make driving more safe.
 One organization, working with evaluation of car safety, is Euro NCAP.
 They have created a five-star safety rating system, in order to guide and assist the customers when they are purchasing a new car.
 The rating is based on a series of vehicle tests, representing everyday traffic scenarios. 
-In order for the car manufactures to get a good rating by Euro NCAP, they need intelligent safety systems in their cars.
+In order for the car manufactures to obtain a good rating by Euro NCAP, they need intelligent safety systems in their cars.
 This requires safety systems capable of handling \eg interurban, city and pedestrian automatic emergency braking (\abbrAEB), \ie a system that is capable of mitigating or avoiding collisions with pedestrians and cars.
 In the future, the automatic emergency steering (\abbrAES) and \abbrAEB systems will have more demanding requirements in order for the car manufactures to reach the highest safety ratings \cite{EuroNCAP:2017}.
 
@@ -19,7 +19,7 @@ By using a camera system, capable of capturing a wide scene in front of the vehi
 Vision safety systems are typically constructed with either one or two cameras, denoted mono camera systems and stereo camera systems, respectively.
 One of the great advantages from using a stereo camera system, instead of a mono camera system, is the ability to gain depth information from the disparity mapping \citep{Sivaraman:2013}.
 This is exactly the same ability as the human eyes have when we observe the world, \ie reconstruction of \spacedim{3} images.
-This significantly improves the ability to get information about how vehicles are \eg oriented.
+This significantly improves the ability to obtain information about how vehicles are \eg oriented.
 One benefit of knowing how vehicles are oriented, and how they are rotating, is that more information can be used when predicting the future path of the vehicles.
 Especially, since \eg a vehicle has constraints that limits its movements, knowing the orientation and angular rate can give large benefits.
 
@@ -56,7 +56,7 @@ The objective can be formulated into several questions:
 \end{itemize}
 
 \section{Limitations}
-In order to make the thesis feasible, some limitations must be accepted. They are:
+In order to make the thesis feasible, some limitations must be accepted. These are:
 
 \begin{itemize}	
 	\item The heading estimation algorithm will only be evaluated on cars.
@@ -77,9 +77,9 @@ In order to make the thesis feasible, some limitations must be accepted. They ar
 
     The algorithm can \eg be informed if the host car is observing the front or rear of the target car.
 
-	\item It is assumed that we have perfect knowledge about the ego car's ego motion.
+	\item It is assumed that we have perfect knowledge about the ego vehicle's ego motion.
 
-	By assuming that the knowledge about the ego car's ego motion is perfect, the step of compensating the states of the target, \ie the position and orientation, is (almost) trivial.
+	By assuming that the knowledge about the ego vehicle's ego motion is perfect, the step of compensating the states of the target, \ie the position and orientation, is (almost) trivial.
 	Therefore, this thesis has dealt only with tracking performed from a car which is standing still, in order to simulate perfect ego motion.
 \end{itemize}
 
